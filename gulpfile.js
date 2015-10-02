@@ -3,7 +3,6 @@ var gulp = require('gulp'),
     watch = require('gulp-watch'),
     connect = require('gulp-connect'),
     sass = require('gulp-sass'),
-    sourcemaps = require('gulp-sourcemaps'),
     concat = require('gulp-concat'),
     bower = require('gulp-bower'),
     browserify = require('browserify'),
@@ -20,7 +19,6 @@ gulp.task('js', function(){
 		.bundle()
 		.pipe(source('app.js'))
 		.pipe(buffer())
-		.pipe(uglify())
 		.pipe(gulp.dest('./dist/'))
 		.pipe(connect.reload());
 });
