@@ -13,6 +13,7 @@ import intro from "./scenes/intro";
 let narrative = new Narrative({
 	printOutput: "output"
 });
+
 let character = new Character("Phil");
 let resources = new Resources(config.resources);
 

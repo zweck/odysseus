@@ -7,7 +7,7 @@ export default class Narrative {
 	}
 
 	incrementProgress(incAmount){
-		var incAmount = incAmount || 1
+		var incAmount = incAmount || 1;
 		this._progress = this._progress + incAmount;
 	}
 
@@ -23,23 +23,23 @@ export default class Narrative {
 
 		if( i < narrative.length ){
 		
-			this._outputElm.innerHTML += narrative[i].say;
-
-			if (narrative[i].wait) {
-				this.wait(narrative[i]);
-			}else{
+			if (!parseInt(narrative[i])) {
+				this._outputElm.innerHTML += narrative[i];
 				this.incrementProgress();
+				this.go();
+			}else{
+				this.wait(narrative[i]);
 			}
 
 		}
 
 	}
 
-	wait(narrative){
-		var time = narrative.wait * 1000;
+	wait(waitTime){
+		var time = waitTime * 1000;
 		setTimeout(() => {
-			this.incrementProgress()
-			this.go()
+			this.incrementProgress();
+			this.go();
 		}, time);
 	}
 }

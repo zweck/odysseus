@@ -8,15 +8,19 @@ var gulp = require('gulp'),
     bower = require('gulp-bower'),
     browserify = require('browserify'),
     babelify = require('babelify'),
+    uglify = require('gulp-uglify'),
+    buffer = require('vinyl-buffer'),
     source = require('vinyl-source-stream');
 
 gulp.task('default', ['js', 'templates', 'sass', 'bower', 'watch', 'connect']);
 
 gulp.task('js', function(){
-	browserify('src/app.js')
+	browserify('src/app.js', {debug: true})
 		.transform(babelify)
 		.bundle()
 		.pipe(source('app.js'))
+		.pipe(buffer())
+		.pipe(uglify())
 		.pipe(gulp.dest('./dist/'))
 		.pipe(connect.reload());
 });
