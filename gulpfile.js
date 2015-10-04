@@ -11,7 +11,7 @@ var gulp = require('gulp'),
     buffer = require('vinyl-buffer'),
     source = require('vinyl-source-stream');
 
-gulp.task('default', ['js', 'templates', 'sass', 'bower', 'watch', 'connect']);
+gulp.task('default', ['js', 'templates', 'sass', 'watch', 'connect']);
 
 gulp.task('js', function(){
 	browserify('src/app.js', {debug: true})
@@ -24,8 +24,7 @@ gulp.task('js', function(){
 });
  
 gulp.task('templates', function () {
-    return gulp
-        .src('./src/**/*.html')
+    return gulp.src('./src/**/*.html')
         .pipe(hb({
             helpers: './src/hbs/helpers/*.js',
             partials: './src/hbs/partials/**/*.hbs'
@@ -38,11 +37,6 @@ gulp.task('sass', function () {
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(sass({outputStyle: 'compressed'}))
     .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('bower', function() {
-  return bower('./bower_components')
-    .pipe(gulp.dest('dist/'))
 });
 
 gulp.task('connect', function() {

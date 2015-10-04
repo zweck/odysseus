@@ -9,13 +9,15 @@ import Resources from "./lib/Resources";
 // import the scenes
 import intro from "./scenes/intro";
 
-// initialise the game
-let narrative = new Narrative({
-	printOutput: "output"
-});
-
-let character = new Character("Phil");
+// initialise the game resources
+let characters = new Character(config.characters);
 let resources = new Resources(config.resources);
 
+// load the narrative
+let narrative = new Narrative({
+	characters: characters,
+	perspective: config.perspective,
+});
 
+// entry point
 narrative.run(intro);

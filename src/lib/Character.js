@@ -1,5 +1,5 @@
 export default class Character {
-	constructor(name){
-		this._name = name;
+	constructor(names){
+		this._names = names;
 	}
 }
