@@ -11,7 +11,25 @@ let scene = [
 	3,
 	"CEBS: Life support systems are back online but we're running on reserve power. There'a an O2 leak in engineering too.",
 	2,
-	"CEBS: What do you want to do? {Seal engineering: Resource Killowatts -5, Infrastructure: Engineering off} or {Fix the backup generator: Resource Killowatts -7}",
+	"CEBS: What do you want to do?",
+	{
+		is: "decision",
+		choices: [
+			{
+				text: "Seal engineering",
+				effects: {
+					resource: "-5 Killowatts",
+					infrastructure: "Disable Engineering"
+				}
+			},
+			{
+				text: "Fix the backup generator",
+				effects: {
+					resource: "-7 Killowatts"
+				}
+			}
+		]
+	}
 ]
 
 export default scene;
