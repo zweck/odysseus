@@ -1,9 +1,11 @@
 import NarrativeView from './NarrativeView';
+import DecisionView from './DecisionView';
 
 export default class Narrative {
 	constructor(options){
 
 		this._narrativeView = new NarrativeView();
+		this._decisionView = new DecisionView();
 
 		// setup some public properties
 		this._narrative;
@@ -56,19 +58,18 @@ export default class Narrative {
 		var narrative = this._narrative;
 
 		// initialise some vars
-		var character, say;
+		var character, utterance;
 		
 		// if we're still in a narrative
 		if( i < narrative.length ){
-		
+
 			// and if the next element in the scene array is text
-			if (!parseInt(narrative[i])) {
+			if (!parseInt(narrative[i]) && !narrative[i].is) {
+
+				utterance = narrative[i];
 
 				// get a the character from the front of the scene text string
-				character = this.getCharactersForNarrative(narrative[i]);
-
-				// get the scene text string
-				say = narrative[i];
+				character = this.getCharactersForNarrative(utterance);
 
 				// if the character in the narrative isn't in the characters setup
 				// assume that its the protaganist
@@ -88,25 +89,31 @@ export default class Narrative {
 				}else{
 
 					// remove the character from the text string
-					say = narrative[i].replace(character + ":", "");
+					utterance = utterance.replace(character + ":", "");
 				}
 
 				// pass the character and the text to the narrative view
-				this._narrativeView.render({output: say, character: character});
+				this._narrativeView.render({output: utterance, character: character});
 
 				// increment the progress
 				this.incrementProgress();
 
 				// repeat
 				this.go();
-			}else{
+			}else if (parseInt(narrative[i])){
 
 				// if the array element is an integer, pass the int and the array index to the wait method
 				this.wait(narrative[i], i);
+			}else if(narrative[i].is === "decision"){
+				this.decide(narrative[i]);
 			}
 
 		}
 
+	}
+
+	decide(decision){
+		this._decisionView.render(decision.choices);
 	}
 
 	wait(waitTime, i){
