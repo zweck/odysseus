@@ -1,4 +1,7 @@
 let config = {
+
+	speed: 5,
+
 	perspective: 1,
 
 	resources: [
@@ -11,6 +14,11 @@ let config = {
 	infrastructure: ["Bridge", "Engineering", "Med Bay", "Science Lab"],
 
 	characters: ["CEBS"],
+
+	endGame: [
+		{infrastructure: "Bridge", value: false},
+		{resources: "Killowatts", value: 0},
+	],
 };
 
 

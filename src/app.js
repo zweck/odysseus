@@ -15,6 +15,7 @@ let resources = new Resources(config.resources);
 
 // load the narrative
 let narrative = new Narrative({
+	speed: config.speed,
 	characters: characters,
 	perspective: config.perspective,
 });
