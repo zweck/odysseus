@@ -8,4 +8,4 @@ let scene = [
 	"Damn it, I just can't see a bloody thing! Maybe I'll try move my arms."
 ]
 
-export default scene;
+module.exports = scene;

@@ -7,7 +7,7 @@ import Narrative from "./lib/Narrative";
 import Resources from "./lib/Resources";
 
 // import the scenes
-import intro from "./scenes/intro";
+var intro = require("./scenes/intro");
 
 // initialise the game resources
 let characters = new Character(config.characters);
