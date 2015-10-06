@@ -20,13 +20,15 @@ let scene = [
 				effects: {
 					resource: "-5 Killowatts",
 					infrastructure: "Disable Engineering"
-				}
+				},
+				goto: "find-drone"
 			},
 			{
 				text: "Fix the backup generator",
 				effects: {
 					resource: "-7 Killowatts"
-				}
+				},
+				goto: "o2-leaking"
 			}
 		]
 	}

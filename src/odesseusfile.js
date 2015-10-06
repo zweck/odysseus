@@ -7,7 +7,7 @@ let config = {
 	resources: [
 		{name: "Killowatts", initial: 10}, 
 		{name: "Oxygen",	 initial: 10},
-		{name: "Food",		 initial: 10},
+		{name: "Drone",		 initial: 1},
 		{name: "Water",		 initial: 10},
 	],
 
