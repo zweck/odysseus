@@ -9,8 +9,12 @@ export default class Narrative {
 		this._narrative;
 		this._speed = options.speed || 1;
 		this._perspective = options.perspective;
-		this._characters = options.characters._names;
 		this._progress = 0;
+		this._characters = options.characters;
+		this._charactersByName = {};
+		options.characters.forEach((character) => {
+			this._charactersByName[character.name] = character;
+		});
 	}
 
 	/**
@@ -32,12 +36,8 @@ export default class Narrative {
 	}
 
 	getCharactersForNarrative(narrative){
-		var character = narrative.split(":")[0].trim();
-		if(this._characters.indexOf(character) < 0){
-			return false;
-		}else{
-			return character;
-		}
+		var name = narrative.split(":")[0].trim();
+		return this._charactersByName[name] || false;
 	}
 
 	textLengthOffset(narrative){
@@ -88,7 +88,7 @@ export default class Narrative {
 				}else{
 
 					// remove the character from the text string
-					say = narrative[i].replace(character + ":", "");
+					say = narrative[i].replace(character.name + ":", "");
 				}
 
 				// pass the character and the text to the narrative view

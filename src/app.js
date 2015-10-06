@@ -10,7 +10,9 @@ import Resources from "./lib/Resources";
 import intro from "./scenes/intro";
 
 // initialise the game resources
-let characters = new Character(config.characters);
+let characters = config.characters.map(function (character) {
+	return new Character(character);
+});
 let resources = new Resources(config.resources);
 
 // load the narrative
