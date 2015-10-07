@@ -1,6 +1,6 @@
 export default class Character {
-	constructor(names){
-		this._names = names;
+	constructor(name){
+		this.name = name;
 	}
 
 	say(){

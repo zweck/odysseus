@@ -4,7 +4,7 @@ export default class NarrativeView {
 
 		var template = ` \
 			<p class="output">\
-				${ data.character }: ${ data.output }\
+				${ data.character.name }: ${ data.output }\
 			</p>\
 		`;
 
