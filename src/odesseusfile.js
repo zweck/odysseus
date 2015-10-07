@@ -2,7 +2,7 @@ let config = {
 
 	speed: 5,
 
-	perspective: 1,
+	perspective: "Me",
 
 	resources: [
 		{name: "Killowatts", initial: 10}, 

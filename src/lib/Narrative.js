@@ -116,25 +116,16 @@ export default class Narrative {
 		// assume that its the protaganist
 		if(!character){
 
-			switch(this._perspective) {
-				case 1:
-					character = "Me";
-				break;
-				case 3:
-					character = "You";
-				break;
-				default:
-					character = "Me";
-			}
+			character = {name: this._perspective};
 			
 		}else{
 
 			// remove the character from the text string
-			utterance = utterance.replace(character + ":", "");
+			utterance = utterance.replace(character.name + ":", "");
 		}
 
 		// pass the character and the text to the narrative view
-		this._narrativeView.render({output: utterance, character: character});
+		this._narrativeView.render({utterance: utterance, character: character});
 
 		// increment the progress
 		this.incrementProgress();
