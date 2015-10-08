@@ -6,7 +6,6 @@ export default class Resources {
 		this.name = options.name;
 		this._level = options.initial;
 		this._resourceView = new ResourceView();
-
 		this._resourceView.render( {name: this.name, level: this.level} );
 	}
 
@@ -16,5 +15,6 @@ export default class Resources {
 
 	set level(levelAdjust){
 		this._level = this._level + levelAdjust;
+		this._resourceView.render( {name: this.name, level: this.level} );
 	}
 }
