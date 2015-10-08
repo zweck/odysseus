@@ -1,6 +1,6 @@
 let config = {
 
-	speed: 5,
+	speed: 10,
 
 	perspective: "Me",
 

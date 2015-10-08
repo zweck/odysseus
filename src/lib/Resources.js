@@ -1,5 +1,14 @@
 export default class Resources {
-	constructor(resourceTypes){
-		this._resources = resourceTypes;
+	constructor(options){
+		this.name = options.name;
+		this._level = options.initial;
+	}
+
+	get level(){
+		return this._level;
+	}
+
+	set level(levelAdjust){
+		this._level = this._level + levelAdjust;
 	}
 }

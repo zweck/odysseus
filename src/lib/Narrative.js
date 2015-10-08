@@ -1,11 +1,10 @@
 import NarrativeView from './NarrativeView';
-import DecisionView from './DecisionView';
+import Decision from './Decision';
 
 export default class Narrative {
 	constructor(options){
 
 		this._narrativeView = new NarrativeView();
-		this._decisionView = new DecisionView();
 
 		// setup some public properties
 		this._narrative;
@@ -13,10 +12,21 @@ export default class Narrative {
 		this._perspective = options.perspective;
 		this._progress = 0;
 		this._characters = options.characters;
+		this._resources = options.resources;
+		
+		// create an object of characters mapping names against their 
+		// character class instance
 		this._charactersByName = {};
-		options.characters.forEach((character) => {
+		this._characters.forEach((character) => {
 			this._charactersByName[character.name] = character;
 		});
+
+		// create an object of resources mapping names against their 
+		// resource class instance
+		this._resourcesByName = {};
+		this._resources.forEach((resource) => {
+			this._resourcesByName[resource.name] = resource;
+		});		
 	}
 
 	/**
@@ -94,8 +104,12 @@ export default class Narrative {
 					// if the array element is an integer, pass the int and the array index to the wait method
 					this.wait(utterance, i);
 				case "object":
-					// if the array element is an object pass it to the decide method
-					this.decide(utterance);
+
+					if (utterance.is === "decision") {
+						// if the array element is an object pass it to the decide method
+						this.decide(utterance);					
+					}
+
 				break;
 				default:
 					this.say(utterance);
@@ -135,7 +149,11 @@ export default class Narrative {
 	}
 
 	decide(decision){
-		this._decisionView.render(decision.choices);
+
+		var decision = new Decision({
+			choices: decision.choices,
+		});
+
 	}
 
 	wait(waitTime, i){

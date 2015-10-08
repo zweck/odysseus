@@ -13,13 +13,17 @@ var intro = require("./scenes/intro");
 let characters = config.characters.map(function (character) {
 	return new Character(character);
 });
-let resources = new Resources(config.resources);
+
+let resources = config.resources.map(function(resource){
+	return new Resources(resource);
+});
 
 // load the narrative
 let narrative = new Narrative({
 	speed: config.speed,
-	characters: characters,
 	perspective: config.perspective,
+	resources: resources,
+	characters: characters,
 });
 
 // entry point
