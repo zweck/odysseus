@@ -1,6 +1,6 @@
 let config = {
 
-	speed: 10,
+	speed: 100,
 
 	perspective: "Me",
 
@@ -11,7 +11,12 @@ let config = {
 		{name: "Water",		 initial: 10},
 	],
 
-	infrastructure: ["Bridge", "Engineering", "Med Bay", "Science Lab"],
+	infrastructure: [
+		{name: "Bridge", 		status: true}, 
+		{name: "Engineering", 	status: true},
+		{name: "Med Bay", 		status: false},
+		{name: "Science Lab", 	status: false},
+	],
 
 	characters: ["CEBS"],
 

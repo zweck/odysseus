@@ -5,6 +5,7 @@ import config from './odesseusfile';
 import Character from "./lib/Character";
 import Narrative from "./lib/Narrative";
 import Resources from "./lib/Resources";
+import Infrastructure from "./lib/Infrastructure";
 
 // import the scenes
 var intro = require("./scenes/intro");
@@ -18,12 +19,17 @@ let resources = config.resources.map(function(resource){
 	return new Resources(resource);
 });
 
+let infrastructure = config.infrastructure.map(function(infrastructure){
+	return new Infrastructure(infrastructure);
+});
+
 // load the narrative
 let narrative = new Narrative({
 	speed: config.speed,
 	perspective: config.perspective,
 	resources: resources,
 	characters: characters,
+	infrastructure: infrastructure,
 });
 
 // entry point

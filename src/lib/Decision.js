@@ -4,6 +4,7 @@ export default class Decision {
 	constructor(options){
 		this._choices = options.choices;
 		this._resources = options.resources;
+		this._infrastructure = options.infrastructure;
 		this._decisionView = new DecisionView(this);
 
 		this.init();
@@ -35,7 +36,15 @@ export default class Decision {
 					this._resources[resource].level = effect;
 				break;
 				case "infrastructure":
-					console.log(attributes[k]);
+					var infrastructureEffect = attributes[k].split(" ");
+					var effect = infrastructureEffect[0].trim().toLowerCase();
+					if(effect === "disable"){
+						effect = false;
+					}else if(effect === "enable"){
+						effect = true;
+					}
+					var infrastructure = infrastructureEffect[1];
+					this._infrastructure[infrastructure].status = effect;
 				break;
 				default:
 					console.log(attributes[k]);

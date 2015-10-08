@@ -13,6 +13,7 @@ export default class Narrative {
 		this._progress = 0;
 		this._characters = options.characters;
 		this._resources = options.resources;
+		this._infrastructure = options.infrastructure;
 		
 		// create an object of characters mapping names against their 
 		// character class instance
@@ -27,6 +28,14 @@ export default class Narrative {
 		this._resources.forEach((resource) => {
 			this._resourcesByName[resource.name] = resource;
 		});		
+
+
+		// create an object of infrastructure mapping names against their 
+		// resource class instance
+		this._infrastructureByName = {};
+		this._infrastructure.forEach((infrastructure) => {
+			this._infrastructureByName[infrastructure.name] = infrastructure;
+		});	
 	}
 
 	/**
@@ -152,6 +161,7 @@ export default class Narrative {
 
 		var decision = new Decision({
 			choices: decision.choices,
+			infrastructure: this._infrastructureByName,
 			resources: this._resourcesByName,
 		});
 
