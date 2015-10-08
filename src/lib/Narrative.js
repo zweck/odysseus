@@ -152,6 +152,7 @@ export default class Narrative {
 
 		var decision = new Decision({
 			choices: decision.choices,
+			resources: this._resourcesByName,
 		});
 
 	}

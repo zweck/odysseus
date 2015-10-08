@@ -8,7 +8,7 @@ export default class NarrativeView {
 			</p>
 		`;
 
-		document.body.innerHTML += template;
+		document.getElementById("narrative").innerHTML += template;
 
 		return true;
 	}

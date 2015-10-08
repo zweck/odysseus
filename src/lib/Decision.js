@@ -27,9 +27,12 @@ export default class Decision {
 		
 		for(var k in attributes) {
 
-			switch(attributes[k]) {
+			switch(k) {
 				case "resource":
-					console.log(attributes[k]);
+					var resourceEffect = attributes[k].split(" ");
+					var effect = parseInt(resourceEffect[0]);
+					var resource = resourceEffect[1];
+					this._resources[resource].level = effect;
 				break;
 				case "infrastructure":
 					console.log(attributes[k]);
