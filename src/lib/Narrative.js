@@ -1,13 +1,17 @@
 import NarrativeView from './NarrativeView';
 import Decision from './Decision';
 
+// map the scenes for require, this currently needs to 
+// be done manually until I find a better way of grabbing
+// scenes by variable names
+let FindDroneScene = require('../scenes/find-drone');
+
 export default class Narrative {
 	constructor(options){
 
 		this._narrativeView = new NarrativeView();
 
 		// setup some public properties
-		this._narrative;
 		this._speed = options.speed || 1;
 		this._perspective = options.perspective;
 		this._progress = 0;
@@ -38,12 +42,21 @@ export default class Narrative {
 		});	
 	}
 
+	set narrative(scene){
+		this._narrative = scene;
+	}
+
+	get narrative(){
+		return this._narrative;
+	}
+
 	/**
 	 * This method is the initialiser for the narrative class
 	 * @param  {Array<String>} narrative This method takes a scene and runs through it
 	 */
-	run(scene){
-		this._narrative = scene;
+	run(scene, sceneName){
+		this._narrativeView.scene = sceneName;
+		this.narrative = scene;
 		this.go();
 	}
 
@@ -81,6 +94,12 @@ export default class Narrative {
 		return utteranceType;
 	}
 
+	moveScene(scene){
+		var nextScene = require("../scenes/" + scene);
+		this._progress = 0;
+		this.run(nextScene, scene);
+	}
+
 	/**
 	 * This method is the main scene parser, it iterates through the scene and outputs the narrative into the NarrativeView
 	 */
@@ -90,7 +109,7 @@ export default class Narrative {
 		var i = this._progress;
 
 		// get the scene narrative
-		var narrative = this._narrative;
+		var narrative = this.narrative;
 
 		// initialise some vars
 		var utterance, utteranceType;
@@ -159,16 +178,17 @@ export default class Narrative {
 
 	decide(decision){
 
-		var decision = new Decision({
+		this._decision = new Decision({
 			choices: decision.choices,
 			infrastructure: this._infrastructureByName,
 			resources: this._resourcesByName,
+			narrative: this,
 		});
 
 	}
 
 	wait(waitTime, i){
-		var previousNarrative = this._narrative[i-1];
+		var previousNarrative = this.narrative[i-1];
 		var time = waitTime * 1000 + this.textLengthOffset(previousNarrative);
 		time = time/this._speed;
 		setTimeout(() => {

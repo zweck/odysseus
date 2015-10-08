@@ -1,5 +1,18 @@
 export default class NarrativeView {
 
+	constructor(){
+		this._scene;
+	}
+
+	get scene(){
+		return this._scene
+	}
+
+	set scene(scene){
+		this._scene = scene;
+		document.getElementById("narrative").innerHTML += `<div id="${scene}"></div>`;
+	}
+
 	render(data){
 
 		var template = ` 
@@ -8,7 +21,7 @@ export default class NarrativeView {
 			</p>
 		`;
 
-		document.getElementById("narrative").innerHTML += template;
+		document.getElementById(this.scene).innerHTML += template;
 
 		return true;
 	}

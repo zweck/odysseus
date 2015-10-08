@@ -6,6 +6,7 @@ export default class Decision {
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
 		this._decisionView = new DecisionView(this);
+		this._narrative = options.narrative;
 
 		this.init();
 	}
@@ -50,5 +51,7 @@ export default class Decision {
 					console.log(attributes[k]);
 			}
 		};
+
+		this._narrative.moveScene(attributes["goto"]);
 	}
 }

@@ -33,4 +33,4 @@ let narrative = new Narrative({
 });
 
 // entry point
-narrative.run(intro);
+narrative.run(intro, "intro");

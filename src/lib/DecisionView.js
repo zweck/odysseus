@@ -19,6 +19,8 @@ export default class DecisionView {
 				effects = effects + "data-" + k + "=" + JSON.stringify(choice.effects[k]) + " ";
 			}
 
+			effects = effects + "data-goto=" + JSON.stringify(choice.goto);
+
 			template+= ` 
 				<span class="answer-group">
 					<button ${ effects } >${ choice.text }</button>
@@ -26,7 +28,7 @@ export default class DecisionView {
 			`;
 		} 
 
-		document.body.innerHTML += template;
+		document.getElementById("narrative").innerHTML += template;
 
 		this.bindEvents();
 
