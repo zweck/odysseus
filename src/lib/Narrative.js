@@ -1,9 +1,9 @@
-import NarrativeView from './NarrativeView';
+import NarrativeView from './Views/NarrativeView';
+import UIView from './Views/UIView';
 import Decision from './Decision';
 
 // map the scenes for require, this currently needs to 
-// be done manually until I find a better way of grabbing
-// scenes by variable names
+// be done manually until I find a way of dynamically loading modules
 let FindDroneScene = require('../scenes/find-drone');
 
 export default class Narrative {
@@ -18,7 +18,8 @@ export default class Narrative {
 		this._characters = options.characters;
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
-		
+		this._ui = options.ui;
+
 		// create an object of characters mapping names against their 
 		// character class instance
 		this._charactersByName = {};
@@ -39,6 +40,14 @@ export default class Narrative {
 		this._infrastructureByName = {};
 		this._infrastructure.forEach((infrastructure) => {
 			this._infrastructureByName[infrastructure.name] = infrastructure;
+		});	
+
+
+		// create an object of uiview mapping sections against their 
+		// resource class instance
+		this._uiBySection = {};
+		this._ui.forEach((ui) => {
+			this._uiBySection[ui.section] = ui;
 		});	
 	}
 
@@ -134,8 +143,9 @@ export default class Narrative {
 				case "object":
 
 					if (utterance.is === "decision") {
-						// if the array element is an object pass it to the decide method
 						this.decide(utterance);					
+					}else if (utterance.is === "ui") {
+						this.ui(utterance);
 					}
 
 				break;
@@ -174,6 +184,20 @@ export default class Narrative {
 
 		// repeat
 		this.go();
+	}
+
+	ui(ui){
+
+		var uiEffect = ui.effect.split(" ");
+		var effect = uiEffect[0].trim().toLowerCase();
+		
+		if(effect === "disable"){
+			effect = false;
+		}else if(effect === "enable"){
+			effect = true;
+		}
+
+		this._uiBySection[uiEffect[1]].state = effect;
 	}
 
 	decide(decision){

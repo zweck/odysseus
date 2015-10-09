@@ -1,6 +1,12 @@
 let config = {
 
-	speed: 100,
+	// These are private properties that 
+	// bind to ui elements
+	_ui: [
+		{section: "menu", state: false, selector: "#menu"},
+	],
+
+	speed: 1,
 
 	perspective: "Me",
 
@@ -21,8 +27,8 @@ let config = {
 	characters: ["CEBS"],
 
 	endGame: [
-		{infrastructure: "Bridge", value: false},
-		{resources: "Killowatts", value: 0},
+		{infrastructure: "Bridge",	value: false},
+		{resources: "Killowatts",	value: 0},
 	],
 };
 

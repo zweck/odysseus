@@ -14,10 +14,10 @@ var gulp = require('gulp'),
 gulp.task('default', ['js', 'templates', 'sass', 'watch', 'connect']);
 
 gulp.task('js', function(){
-	browserify('src/app.js', {debug: true})
+	browserify(['src/app.js', 'src/scenes/find-drone.js'], {debug: true})
 		.transform(babelify)
 		.bundle()
-		.pipe(source('app.js'))
+        .pipe(source('app.js'))
 		.pipe(buffer())
 		.pipe(gulp.dest('./dist/'))
 		.pipe(connect.reload());

@@ -1,4 +1,4 @@
-import DecisionView from './DecisionView';
+import DecisionView from './Views/DecisionView';
 
 export default class Decision {
 	constructor(options){

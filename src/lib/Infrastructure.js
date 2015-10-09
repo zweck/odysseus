@@ -1,4 +1,4 @@
-import InfrastructureView from './InfrastructureView';
+import InfrastructureView from './Views/InfrastructureView';
 
 export default class Infrastructure {
 

@@ -1,4 +1,4 @@
-import ResourceView from './ResourceView';
+import ResourceView from './Views/ResourceView';
 
 export default class Resources {
 
