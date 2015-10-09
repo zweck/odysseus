@@ -9,7 +9,8 @@ var gulp = require('gulp'),
     babelify = require('babelify'),
     uglify = require('gulp-uglify'),
     buffer = require('vinyl-buffer'),
-    source = require('vinyl-source-stream');
+    source = require('vinyl-source-stream'),
+    ghPages = require('gulp-gh-pages');
 
 gulp.task('default', ['js', 'templates', 'sass', 'watch', 'connect']);
 
@@ -47,4 +48,9 @@ gulp.task('watch', function () {
   gulp.watch('./src/**/*.{html,hbs}', ['templates']);
   gulp.watch('./src/**/*.js', ['js']);
   gulp.watch('./src/sass/**/*.scss', ['sass']);
+});
+
+gulp.task('deploy', function() {
+  return gulp.src('./dist/**/*')
+    .pipe(ghPages());
 });
