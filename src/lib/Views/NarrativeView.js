@@ -22,7 +22,7 @@ export default class NarrativeView {
 		`;
 
 		document.getElementById(this.scene).innerHTML += template;
-
+		document.getElementById("narrative").scrollTop = document.getElementById("narrative").scrollHeight
 		return true;
 	}
 }

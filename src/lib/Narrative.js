@@ -136,6 +136,12 @@ export default class Narrative {
 				case "string":
 					// if the array element is a string pass it to the say method
 					this.say(utterance);
+
+					// increment the progress
+					this.incrementProgress();
+					
+					// repeat
+					this.go();
 				break;
 				case "number":
 					// if the array element is an integer, pass the int and the array index to the wait method
@@ -146,6 +152,12 @@ export default class Narrative {
 						this.decide(utterance);					
 					}else if (utterance.is === "ui") {
 						this.ui(utterance);
+
+						// increment the progress
+						this.incrementProgress();
+						
+						// repeat
+						this.go();
 					}
 
 				break;
@@ -179,11 +191,6 @@ export default class Narrative {
 		// pass the character and the text to the narrative view
 		this._narrativeView.render({utterance: utterance, character: character});
 
-		// increment the progress
-		this.incrementProgress();
-
-		// repeat
-		this.go();
 	}
 
 	ui(ui){
