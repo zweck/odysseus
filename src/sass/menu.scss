@@ -1,0 +1,51 @@
+#menu{
+	position: fixed;
+	opacity: 0;
+	right: -999px;
+	top: 10px;
+
+	.menu-wrapper{
+		border: 2px solid black;
+		padding: 5px 10px;
+		background: white;
+
+		-webkit-box-shadow: 5px 5px 40px -6px rgba(168,168,168,1);
+		-moz-box-shadow: 5px 5px 40px -6px rgba(168,168,168,1);
+		box-shadow: 5px 5px 40px -6px rgba(168,168,168,1);
+	}
+
+	&.show{
+		opacity: 1;
+		right: 5px;
+	}
+
+	input.menu-icon, label.menu-label{
+	    position: absolute;
+    	right: 5px;
+    	display: block;
+	    min-width: 100%;
+	    text-align: right;
+	}
+	
+	input.menu-icon{
+		z-index: 2;
+		opacity: 0;
+	}
+
+	label.menu-label span{
+		border: 1px solid black;
+		border-radius: 3px;
+		padding: 2px 4px;
+	}
+
+}
+
+#menu .menu-wrapper{
+	top: -450px;
+	position: relative;
+	transition: top 1s ease;
+}
+
+#menu input.menu-icon:checked ~ .menu-wrapper{
+	top: 30px;
+}

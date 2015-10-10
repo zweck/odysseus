@@ -27,22 +27,3 @@ html,body{
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 	}
 }
-
-#menu{
-	position: fixed;
-	border: 2px solid black;
-	right: -999px;
-	top: 5px;
-	padding: 5px 10px;
-	background: white;
-	opacity: 0;
-
-	-webkit-box-shadow: 5px 5px 40px -6px rgba(168,168,168,1);
-	-moz-box-shadow: 5px 5px 40px -6px rgba(168,168,168,1);
-	box-shadow: 5px 5px 40px -6px rgba(168,168,168,1);
-
-	&.show{
-		opacity: 1;
-		right: 5px;
-	}
-}
