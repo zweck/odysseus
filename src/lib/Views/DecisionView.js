@@ -29,6 +29,7 @@ export default class DecisionView {
 		} 
 
 		document.getElementById("narrative").innerHTML += template;
+		document.getElementById("narrative").scrollTop = document.getElementById("narrative").scrollHeight
 
 		this.bindEvents();
 
