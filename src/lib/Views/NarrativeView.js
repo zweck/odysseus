@@ -16,10 +16,9 @@ export default class NarrativeView {
 	render(data){
 
 		var template = ` 
-			<p class="output">
-				${ data.character.name }: ${ data.utterance }
-			</p>
-		`;
+			<p class="output ${ data.character.name }">
+				${ data.character.name }: <span class="utterance">${ data.utterance }</span>
+			</p>`;
 
 		document.getElementById(this.scene).innerHTML += template;
 		document.getElementById("narrative").scrollTop = document.getElementById("narrative").scrollHeight

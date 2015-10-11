@@ -19,5 +19,14 @@
 	}
 	.output-wrapper:last-child .output:last-child{
 		background: #033D03;
+	}
+
+	.Me, .Me > *{
+	    color: #0288CD;
 	}	
+
+	.output-wrapper:last-child .Me.output:last-child {
+	    background: #03343D;
+	}
+
 }
