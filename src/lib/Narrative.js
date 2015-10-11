@@ -20,6 +20,9 @@ export default class Narrative {
 		this._infrastructure = options.infrastructure;
 		this._ui = options.ui;
 
+		// enable any dev features requested
+		this._setupDev(options);
+
 		// create an object of characters mapping names against their 
 		// character class instance
 		this._charactersByName = {};
@@ -223,9 +226,38 @@ export default class Narrative {
 		var previousNarrative = this.narrative[i-1];
 		var time = waitTime * 1000 + this.textLengthOffset(previousNarrative);
 		time = time/this._speed;
-		setTimeout(() => {
+		this._waitTimer = setTimeout(() => {
 			this.incrementProgress();
 			this.go();
 		}, time);
+	}
+
+	/**
+	 * Skips to the next utterance (used in development)
+	 * @private
+	 */
+	_skip() {
+		if (this._waitTimer) {
+			clearTimeout(this._waitTimer);
+		}
+		this.incrementProgress();
+		this.go();
+	}
+
+	/**
+	 * Sets up any development features that have been requested
+	 * @private
+	 * @param {object} options hash of options passed to view
+	 */
+	_setupDev(options) {
+		// Set up utterance skipping
+		if (options.allowSkip) {
+			document.body.addEventListener('keydown', (e) => {
+				var keyCode = e.keyCode || e.which;
+				if (keyCode === 190) { // '.' to skip
+					this._skip();
+				}
+			});
+		}
 	}
 }

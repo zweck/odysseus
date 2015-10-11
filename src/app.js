@@ -30,9 +30,17 @@ let ui = config._ui.map(function(ui){
 	return new UIView(ui);
 });
 
+// pull any dev overrides from querystring
+// @todo use something like @link https://www.npmjs.com/package/nconf for hierarchical, environment-based configs, instead of querystring
+// @todo figure out a cleaner strategy for using common-js requires alongside es6 (too lazy to google just now)
+let queryString = require('querystring').parse(window.location.toString().split('?').pop());
+if (Object.keys(queryString).indexOf('dev') !== -1) {
+	config.environment = 'development';
+}
 
 // load the narrative
 let narrative = new Narrative({
+	allowSkip: config.environment === 'development',
 	speed: config.speed,
 	perspective: config.perspective,
 	resources: resources,
