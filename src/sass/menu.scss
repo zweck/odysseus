@@ -3,6 +3,7 @@
 	opacity: 0;
 	right: -999px;
 	top: 10px;
+    z-index: 1;
 
 	.menu-wrapper{
 		border: 2px solid black;
@@ -14,11 +15,6 @@
 		box-shadow: 5px 5px 40px -6px rgba(168,168,168,1);
 	}
 
-	&.show{
-		opacity: 1;
-		right: 5px;
-	}
-
 	input.menu-icon, label.menu-label{
 	    position: absolute;
     	right: 5px;
@@ -26,7 +22,7 @@
 	    min-width: 100%;
 	    text-align: right;
 	}
-	
+
 	input.menu-icon{
 		z-index: 2;
 		opacity: 0;
@@ -36,6 +32,14 @@
 		border: 1px solid black;
 		border-radius: 3px;
 		padding: 2px 4px;
+		&:after{
+			content: "menu ☰";
+		}
+	}
+
+	&.show{
+		opacity: 1;
+		right: 5px;
 	}
 
 }
@@ -48,4 +52,10 @@
 
 #menu input.menu-icon:checked ~ .menu-wrapper{
 	top: 30px;
+}
+
+#menu input.menu-icon:checked ~ label.menu-label span{
+	&:after{
+		content: "close x";
+	}
 }

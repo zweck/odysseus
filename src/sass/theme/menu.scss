@@ -6,6 +6,21 @@
 		-webkit-animation: flicker 5s;    
 		right: 5px;	
 	}
+
+    .menu-wrapper{
+        border: 2px solid #02CD02;
+        padding: 5px 10px;
+        background: black;
+
+        -webkit-box-shadow: -3px 5px 40px -6px #00A400;
+        -moz-box-shadow: -3px 5px 40px -6px #00A400;
+        box-shadow: -3px 5px 40px -6px #00A400;
+    }
+
+    label.menu-label span {
+        border: 1px solid #02CD02;
+    }
+
 }
 
 @-webkit-keyframes flicker{

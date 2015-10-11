@@ -1,5 +1,5 @@
 // grab the config
-import config from './odesseusfile';
+import config from './odysseusfile';
 
 // import the game classes
 import Character from "./lib/Character";

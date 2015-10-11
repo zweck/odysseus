@@ -10,7 +10,7 @@ export default class NarrativeView {
 
 	set scene(scene){
 		this._scene = scene;
-		document.getElementById("narrative").innerHTML += `<div id="${scene}"></div>`;
+		document.getElementById("narrative").innerHTML += `<div class="output-wrapper" id="${scene}"></div>`;
 	}
 
 	render(data){

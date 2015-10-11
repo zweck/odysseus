@@ -2,15 +2,16 @@ html,body{
 	height: 100%;
 	font-family: monospace;
 	overflow: hidden;
+	margin: 0;
 }
 
 #narrative{
 	height: 100%;
 	width: 80%;	
 	overflow: scroll;
+	padding-bottom: 10px;
 
-	padding-bottom: 50px;
-    top: -50px;
+    top: 0px;
     position: relative;
 
 	.spacer{
@@ -19,12 +20,12 @@ html,body{
 	
 	.top-fade{
 		width: 100%;
-		height: 100%;
+		height: 20%;
 		pointer-events: none;
-		background: blue;
 		position: fixed;
 		top: 0;
 		left: 0;
+		z-index: 1;
 
 		background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 46%, rgba(255,255,255,0) 100%); /* FF3.6+ */
 		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(46%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
@@ -34,4 +35,39 @@ html,body{
 		background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 46%,rgba(255,255,255,0) 100%); /* W3C */
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
 	}
+
+	.answer-group button {
+		background: none;
+		border: 1px solid black;
+		border-radius: 3px;
+		padding: 5px 10px;
+		font-family: monospace;
+		margin-left: 6px;
+
+		&:disabled{
+			border-color: #C3C3C3;
+		}
+	}
+
+	.output-wrapper{
+		z-index: 3;
+		.output{
+			padding: 3px 6px;
+		}
+	}
+
+	.output-wrapper:last-child .output:last-child{
+		background: #C3C3C3;
+		&:after{
+    		content: "|";
+    		font-size: 150%;
+			-webkit-animation: phase 1s infinite;
+    	}
+	}
+
+}
+
+@-webkit-keyframes phase{
+    0% {opacity:1}
+    100% {opacity:0}
 }
