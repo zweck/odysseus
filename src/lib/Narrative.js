@@ -146,6 +146,7 @@ export default class Narrative {
 				case "number":
 					// if the array element is an integer, pass the int and the array index to the wait method
 					this.wait(utterance, i);
+				break;
 				case "object":
 
 					if (utterance.is === "decision") {
