@@ -97,7 +97,11 @@ export default class Narrative {
 	 * @return {number}           The amount of characters * 100ms
 	 */
 	textLengthOffset(narrative){
-		return narrative.length * 100;
+		if( typeof narrative === 'string' || narrative instanceof String ){
+			return narrative.length * 50;
+		}else{
+			return 0;
+		}
 	}
 
 

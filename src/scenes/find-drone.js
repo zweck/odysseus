@@ -1,5 +1,6 @@
 let scene = [
 	"CEBS: Ok engineering is sealed. Lets see if I can get the ships status onscreen.",
+	1,
 	"Are the o2 levels stable?",
 	6,
 	"Hello? CEBS?",

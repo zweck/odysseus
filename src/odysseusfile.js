@@ -6,7 +6,7 @@ let config = {
 		{section: "menu", state: false, selector: "#menu"},
 	],
 
-	speed: 100,
+	speed: 1,
 
 	perspective: "Me",
 
