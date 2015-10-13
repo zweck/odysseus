@@ -1,6 +1,7 @@
 import NarrativeView from './Views/NarrativeView';
 import UIView from './Views/UIView';
 import Decision from './Decision';
+import Utterance from './Utterance';
 
 // map the scenes for require, this currently needs to 
 // be done manually until I find a way of dynamically loading modules
@@ -126,22 +127,18 @@ export default class Narrative {
 
 		// get the scene narrative
 		var narrative = this.narrative;
-
-		// initialise some vars
-		var utterance, utteranceType;
 		
 		// if we're still in a narrative
 		if( i < narrative.length ){
-
-			utterance = narrative[i];
-
+			let entry = narrative[i];
 			// get the `type` of object in the scene array
-			utteranceType = this.type(utterance);
+			let entryType = typeof entry;
 
 			// decide which method to run on the scene utterance
-			switch(utteranceType) {
+			switch(entryType) {
 				case "string":
 					// if the array element is a string pass it to the say method
+					let utterance = new Utterance(entry);
 					this.say(utterance);
 
 					// increment the progress
@@ -152,14 +149,13 @@ export default class Narrative {
 				break;
 				case "number":
 					// if the array element is an integer, pass the int and the array index to the wait method
-					this.wait(utterance, i);
+					this.wait(entry, i);
 				break;
 				case "object":
-
-					if (utterance.is === "decision") {
-						this.decide(utterance);					
-					}else if (utterance.is === "ui") {
-						this.ui(utterance);
+					if (entry.is === "decision") {
+						this.decide(entry);					
+					}else if (entry.is === "ui") {
+						this.ui(entry);
 
 						// increment the progress
 						this.incrementProgress();
@@ -179,25 +175,21 @@ export default class Narrative {
 
 	say(utterance){
 
-		var character;
+		var character,
+			text;
 		
 		// get a the character from the front of the scene text string
-		character = this.getCharactersForNarrative(utterance);
+		character = this._charactersByName[utterance.characterName];
 
 		// if the character in the narrative isn't in the characters setup
 		// assume that its the protaganist
 		if(!character){
-
 			character = {name: this._perspective};
-			
-		}else{
-
-			// remove the character from the text string
-			utterance = utterance.replace(character.name + ":", "");
 		}
+		text = utterance.text;
 
 		// pass the character and the text to the narrative view
-		this._narrativeView.render({utterance: utterance, character: character});
+		this._narrativeView.render({utterance: text, character: character});
 
 	}
 
