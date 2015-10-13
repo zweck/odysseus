@@ -4,9 +4,10 @@ export default class DecisionView {
 		this.decisionInstance = decisionInstance;
 	}
 
-	render(choices){
+	render(){
 
-		var template = "";
+		var template = "",
+			choices = this.decisionInstance.choices;
 
 		for(let i in choices) { 
 			var choice = choices[i];

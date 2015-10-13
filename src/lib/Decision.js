@@ -12,7 +12,7 @@ export default class Decision {
 	}
 
 	init(){
-		this._decisionView.render(this._choices);
+		this._decisionView.render();
 	}
 
 	get decisionEvent(){
@@ -22,6 +22,10 @@ export default class Decision {
 	set decisionEvent(evt){
 		this._decisionEvent = evt;
 		this.concequences();
+	}
+
+	get choices() {
+		return this._choices;
 	}
 
 	concequences(){
