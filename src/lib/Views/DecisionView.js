@@ -11,20 +11,8 @@ export default class DecisionView {
 
 		for(let i in choices) { 
 			var choice = choices[i];
-
-			var effects = new String;
-
-			// add the effects to the button template. This is weak and 
-			// needs to be abstracted and imporved
-			for(var k in choice.effects){
-				effects = effects + "data-" + k + "=" + JSON.stringify(choice.effects[k]) + " ";
-			}
-
-			effects = effects + "data-goto=" + JSON.stringify(choice.goto);
-
 			template+= ` 
-				
-					<button ${ effects } >${ choice.text }</button>
+				<button>${ choice.text }</button>
 			`;
 		}
 		template += "</span>";
