@@ -69,14 +69,20 @@ export default class Narrative {
 	run(scene, sceneName){
 		this._narrativeView.scene = sceneName;
 		this.narrative = scene;
-		this.go();
+		this._go();
+	}
+
+	moveScene(scene){
+		var nextScene = require("../scenes/" + scene);
+		this._progress = 0;
+		this.run(nextScene, scene);
 	}
 
 	/**
-	 * This is a scene progress count used in the `go()` method
+	 * This is a scene progress count used in the `_go()` method
 	 * @param  {integer} incAmount This is the amount to progress the narrative, default is 1
 	 */
-	incrementProgress(incAmount=1){
+	_incrementProgress(incAmount=1){
 		var incAmount = incAmount;
 		this._progress = this._progress + incAmount;
 	}
@@ -96,7 +102,7 @@ export default class Narrative {
 	 * @param  {string} narrative The utterance from the scene array
 	 * @return {number}           The amount of characters * 100ms
 	 */
-	textLengthOffset(narrative){
+	_textLengthOffset(narrative){
 		if( typeof narrative === 'string' || narrative instanceof String ){
 			return narrative.length * 50;
 		}else{
@@ -105,21 +111,15 @@ export default class Narrative {
 	}
 
 
-	type(utterance){
+	_type(utterance){
 		var utteranceType = typeof utterance;
 		return utteranceType;
-	}
-
-	moveScene(scene){
-		var nextScene = require("../scenes/" + scene);
-		this._progress = 0;
-		this.run(nextScene, scene);
 	}
 
 	/**
 	 * This method is the main scene parser, it iterates through the scene and outputs the narrative into the NarrativeView
 	 */
-	go(){
+	_go(){
 
 		// grab the current progress
 		var i = this._progress;
@@ -136,7 +136,7 @@ export default class Narrative {
 			utterance = narrative[i];
 
 			// get the `type` of object in the scene array
-			utteranceType = this.type(utterance);
+			utteranceType = this._type(utterance);
 
 			// decide which method to run on the scene utterance
 			switch(utteranceType) {
@@ -145,10 +145,10 @@ export default class Narrative {
 					this.say(utterance);
 
 					// increment the progress
-					this.incrementProgress();
+					this._incrementProgress();
 					
 					// repeat
-					this.go();
+					this._go();
 				break;
 				case "number":
 					// if the array element is an integer, pass the int and the array index to the wait method
@@ -162,10 +162,10 @@ export default class Narrative {
 						this.ui(utterance);
 
 						// increment the progress
-						this.incrementProgress();
+						this._incrementProgress();
 						
 						// repeat
-						this.go();
+						this._go();
 					}
 
 				break;
@@ -228,11 +228,11 @@ export default class Narrative {
 
 	wait(waitTime, i){
 		var previousNarrative = this.narrative[i-1];
-		var time = waitTime * 1000 + this.textLengthOffset(previousNarrative);
+		var time = waitTime * 1000 + this._textLengthOffset(previousNarrative);
 		time = time/this._speed;
 		this._waitTimer = setTimeout(() => {
-			this.incrementProgress();
-			this.go();
+			this._incrementProgress();
+			this._go();
 		}, time);
 	}
 
@@ -244,8 +244,8 @@ export default class Narrative {
 		if (this._waitTimer) {
 			clearTimeout(this._waitTimer);
 		}
-		this.incrementProgress();
-		this.go();
+		this._incrementProgress();
+		this._go();
 	}
 
 	/**
