@@ -25,7 +25,8 @@ export default class Decision {
 	}
 
 	concequences(){
-		var attributes = this.decisionEvent.srcElement.dataset;
+		var el = this.decisionEvent.target || this.decisionEvent.srcElement;
+		var attributes = el.dataset;
 		
 		for(var k in attributes) {
 
