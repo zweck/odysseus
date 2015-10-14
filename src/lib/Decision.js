@@ -12,33 +12,34 @@ export default class Decision {
 	}
 
 	init(){
-		this._decisionView.render(this._choices);
+		this._decisionView.render();
 	}
 
-	get decisionEvent(){
-		return this._decisionEvent;
+	get choices() {
+		return this._choices;
 	}
 
-	set decisionEvent(evt){
-		this._decisionEvent = evt;
-		this.concequences();
-	}
+	/**
+	 * Selects a choice
+	 * @param  {Number} choiceIndex the, er, index of the choice
+	 */
+	selectChoice(choiceIndex) {
+		console.log(arguments)
+		// Get choice and its effects
+		var choice = this._choices[choiceIndex],
+			effects = choice.effects;
 
-	concequences(){
-		var el = this.decisionEvent.target || this.decisionEvent.srcElement;
-		var attributes = el.dataset;
-		
-		for(var k in attributes) {
-
+		// Apply effects
+		Object.keys(effects).forEach((k) => {
 			switch(k) {
 				case "resource":
-					var resourceEffect = attributes[k].split(" ");
+					var resourceEffect = effects[k].split(" ");
 					var effect = parseInt(resourceEffect[0]);
 					var resource = resourceEffect[1];
 					this._resources[resource].level = effect;
 				break;
 				case "infrastructure":
-					var infrastructureEffect = attributes[k].split(" ");
+					var infrastructureEffect = effects[k].split(" ");
 					var effect = infrastructureEffect[0].trim().toLowerCase();
 					if(effect === "disable"){
 						effect = false;
@@ -49,10 +50,11 @@ export default class Decision {
 					this._infrastructure[infrastructure].status = effect;
 				break;
 				default:
-					console.log(attributes[k]);
+					console.log(effects[k]);
 			}
-		};
+		});
 
-		this._narrative.moveScene(attributes["goto"]);
+		// Goto next scene as directed
+		this._narrative.moveScene(choice.goto);
 	}
 }
