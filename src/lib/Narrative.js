@@ -1,6 +1,7 @@
 import NarrativeView from './Views/NarrativeView';
 import UIView from './Views/UIView';
 import Decision from './Decision';
+import Progress from './Progress';
 
 // map the scenes for require, this currently needs to 
 // be done manually until I find a way of dynamically loading modules
@@ -9,7 +10,8 @@ let FindDroneScene = require('../scenes/find-drone');
 export default class Narrative {
 	constructor(options){
 
-		this._narrativeView = new NarrativeView();
+		this.globalProgress = new Progress();
+		this.narrativeView = new NarrativeView();
 
 		// setup some public properties
 		this._speed = options.speed || 1;
@@ -67,7 +69,7 @@ export default class Narrative {
 	 * @param  {Array<String>} narrative This method takes a scene and runs through it
 	 */
 	run(scene, sceneName){
-		this._narrativeView.scene = sceneName;
+		this.narrativeView.scene = sceneName;
 		this.narrative = scene;
 		this.go();
 	}
@@ -197,7 +199,7 @@ export default class Narrative {
 		}
 
 		// pass the character and the text to the narrative view
-		this._narrativeView.render({utterance: utterance, character: character});
+		this.narrativeView.render({utterance: utterance, character: character});
 
 	}
 
