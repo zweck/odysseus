@@ -1,7 +1,6 @@
 import NarrativeView from './Views/NarrativeView';
 import UIView from './Views/UIView';
 import Decision from './Decision';
-import Progress from './Progress';
 
 // map the scenes for require, this currently needs to 
 // be done manually until I find a way of dynamically loading modules
@@ -10,7 +9,6 @@ let FindDroneScene = require('../scenes/find-drone');
 export default class Narrative {
 	constructor(options){
 
-		this.globalProgress = new Progress();
 		this.narrativeView = new NarrativeView();
 
 		// setup some public properties
@@ -21,6 +19,8 @@ export default class Narrative {
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
 		this._ui = options.ui;
+		this._globalProgress = options.globalProgress;
+
 
 		// enable any dev features requested
 		this.setupDev(options);
@@ -64,6 +64,14 @@ export default class Narrative {
 		return this._narrative;
 	}
 
+	set narrativeProgress(progress){
+		this._globalProgress.narrative = progress;
+	}
+
+	get narrativeProgress(){
+		return this._globalProgress.narrative;
+	}
+
 	/**
 	 * This method is the initialiser for the narrative class
 	 * @param  {Array<String>} narrative This method takes a scene and runs through it
@@ -71,6 +79,7 @@ export default class Narrative {
 	run(scene, sceneName){
 		this.narrativeView.scene = sceneName;
 		this.narrative = scene;
+		this.narrativeProgress = { scene: sceneName, index: this._progress };
 		this.go();
 	}
 
@@ -87,6 +96,7 @@ export default class Narrative {
 	incrementProgress(incAmount=1){
 		var incAmount = incAmount;
 		this._progress = this._progress + incAmount;
+		this.narrativeProgress = { index: this._progress };
 	}
 
 	/**

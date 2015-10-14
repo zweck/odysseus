@@ -6,6 +6,7 @@ import Character from "./lib/Character";
 import Narrative from "./lib/Narrative";
 import Resources from "./lib/Resources";
 import Infrastructure from "./lib/Infrastructure";
+import Progress from './lib/Progress';
 
 // import the Visuals View class to initialize some of the ui properties
 import UIView from "./lib/Views/UIView";
@@ -38,6 +39,11 @@ if (Object.keys(queryString).indexOf('dev') !== -1) {
 	config.environment = 'development';
 }
 
+let progress = new Progress({
+	resources: resources,
+	infrastructure: infrastructure,
+});
+
 // load the narrative
 let narrative = new Narrative({
 	allowSkip: config.environment === 'development',
@@ -47,6 +53,7 @@ let narrative = new Narrative({
 	characters: characters,
 	infrastructure: infrastructure,
 	ui: ui,
+	globalProgress: progress,
 });
 
 // entry point
