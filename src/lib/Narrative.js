@@ -2,6 +2,7 @@ import NarrativeView from './Views/NarrativeView';
 import UIView from './Views/UIView';
 import Decision from './Decision';
 import Utterance from './Utterance';
+import Progress from './Progress';
 
 // map the scenes for require, this currently needs to 
 // be done manually until I find a way of dynamically loading modules
@@ -10,7 +11,8 @@ let FindDroneScene = require('../scenes/find-drone');
 export default class Narrative {
 	constructor(options){
 
-		this._narrativeView = new NarrativeView();
+		this.globalProgress = new Progress();
+		this.narrativeView = new NarrativeView();
 
 		// setup some public properties
 		this._speed = options.speed || 1;
@@ -22,7 +24,7 @@ export default class Narrative {
 		this._ui = options.ui;
 
 		// enable any dev features requested
-		this._setupDev(options);
+		this.setupDev(options);
 
 		// create an object of characters mapping names against their 
 		// character class instance
@@ -68,9 +70,15 @@ export default class Narrative {
 	 * @param  {Array<String>} narrative This method takes a scene and runs through it
 	 */
 	run(scene, sceneName){
-		this._narrativeView.scene = sceneName;
+		this.narrativeView.scene = sceneName;
 		this.narrative = scene;
 		this.go();
+	}
+
+	moveScene(scene){
+		var nextScene = require("../scenes/" + scene);
+		this._progress = 0;
+		this.run(nextScene, scene);
 	}
 
 	/**
@@ -109,12 +117,6 @@ export default class Narrative {
 	type(utterance){
 		var utteranceType = typeof utterance;
 		return utteranceType;
-	}
-
-	moveScene(scene){
-		var nextScene = require("../scenes/" + scene);
-		this._progress = 0;
-		this.run(nextScene, scene);
 	}
 
 	/**
@@ -190,7 +192,7 @@ export default class Narrative {
 
 		// pass the character and the text to the narrative view
 		this._narrativeView.render({utterance: text, character: character});
-
+		this.narrativeView.render({utterance: utterance, character: character});
 	}
 
 	ui(ui){
@@ -232,7 +234,7 @@ export default class Narrative {
 	 * Skips to the next utterance (used in development)
 	 * @private
 	 */
-	_skip() {
+	skip() {
 		if (this._waitTimer) {
 			clearTimeout(this._waitTimer);
 		}
@@ -245,13 +247,13 @@ export default class Narrative {
 	 * @private
 	 * @param {object} options hash of options passed to view
 	 */
-	_setupDev(options) {
+	setupDev(options) {
 		// Set up utterance skipping
 		if (options.allowSkip) {
 			document.body.addEventListener('keydown', (e) => {
 				var keyCode = e.keyCode || e.which;
 				if (keyCode === 190) { // '.' to skip
-					this._skip();
+					this.skip();
 				}
 			});
 		}
