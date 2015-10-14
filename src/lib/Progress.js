@@ -1,5 +1,4 @@
 export default class Progress {
-
 	get progress(){
 
 		localStorage.getItem("progress");
