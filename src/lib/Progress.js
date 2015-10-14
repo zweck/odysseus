@@ -3,7 +3,25 @@ export default class Progress {
 	constructor(options){
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
-		this._narrative;
+	}
+
+	get decisions(){
+		var progressJSON = localStorage.getItem("narrativeProgress");
+		return progressJSON;
+	}
+
+	set decisions(progressObject){
+		var storedProgressJSON = localStorage.getItem("decisionProgress");
+
+		if(storedProgressJSON){
+			storedProgressJSON.push(JSON.parse(storedProgressJSON));		
+		}else{
+			storedProgressJSON = [];
+			storedProgressJSON.push(progressObject);
+		}
+
+		localStorage.setItem("decisionProgress", JSON.stringify(storedProgressJSON));
+		
 	}
 
 	get narrative(){
@@ -46,5 +64,10 @@ export default class Progress {
 
 	set resources(progressObject){
 
+	}
+
+	reset(){
+		localStorage.removeItem("narrativeProgress");
+		localStorage.removeItem("decisionProgress");
 	}
 }

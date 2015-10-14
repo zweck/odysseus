@@ -226,6 +226,7 @@ export default class Narrative {
 			infrastructure: this._infrastructureByName,
 			resources: this._resourcesByName,
 			narrative: this,
+			globalProgress: this._globalProgress,
 		});
 
 	}

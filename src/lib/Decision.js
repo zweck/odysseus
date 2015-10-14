@@ -7,6 +7,7 @@ export default class Decision {
 		this._infrastructure = options.infrastructure;
 		this._decisionView = new DecisionView(this);
 		this._narrative = options.narrative;
+		this._globalProgress = options.globalProgress;
 
 		this.init();
 	}
@@ -24,7 +25,6 @@ export default class Decision {
 	 * @param  {Number} choiceIndex the, er, index of the choice
 	 */
 	selectChoice(choiceIndex) {
-		console.log(arguments)
 		// Get choice and its effects
 		var choice = this._choices[choiceIndex],
 			effects = choice.effects;
@@ -53,6 +53,8 @@ export default class Decision {
 					console.log(effects[k]);
 			}
 		});
+
+		this._globalProgress.decisions = choice;
 
 		// Goto next scene as directed
 		this._narrative.moveScene(choice.goto);
