@@ -7,7 +7,7 @@ export default class Progress {
 		return this._progress;
 	}
 
-	set progress(){
-
+	set progress(progress){
+		this._progress = progress;
 	}
 }
