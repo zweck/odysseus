@@ -191,8 +191,7 @@ export default class Narrative {
 		text = utterance.text;
 
 		// pass the character and the text to the narrative view
-		this._narrativeView.render({utterance: text, character: character});
-		this.narrativeView.render({utterance: utterance, character: character});
+		this.narrativeView.render({utterance: text, character: character});
 	}
 
 	ui(ui){
