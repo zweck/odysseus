@@ -24,7 +24,6 @@ export default class Decision {
 	 * @param  {Number} choiceIndex the, er, index of the choice
 	 */
 	selectChoice(choiceIndex) {
-		console.log(arguments)
 		// Get choice and its effects
 		var choice = this._choices[choiceIndex],
 			effects = choice.effects;
