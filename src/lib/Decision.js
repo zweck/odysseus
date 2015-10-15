@@ -31,30 +31,47 @@ export default class Decision {
 
 		// Apply effects
 		Object.keys(effects).forEach((k) => {
+			let effect = effects[k];
 			switch(k) {
 				case "resource":
-					var resourceEffect = effects[k].split(" ");
-					var effect = parseInt(resourceEffect[0]);
-					var resource = resourceEffect[1];
-					this._resources[resource].level = effect;
+					this.executeResourceEffect(effect);
 				break;
 				case "infrastructure":
-					var infrastructureEffect = effects[k].split(" ");
-					var effect = infrastructureEffect[0].trim().toLowerCase();
-					if(effect === "disable"){
-						effect = false;
-					}else if(effect === "enable"){
-						effect = true;
-					}
-					var infrastructure = infrastructureEffect[1];
-					this._infrastructure[infrastructure].status = effect;
+					this.executeInfrastructureEffect(effect);
 				break;
 				default:
-					console.log(effects[k]);
+					console.log(effect);
 			}
 		});
 
 		// Goto next scene as directed
 		this._narrative.moveScene(choice.goto);
+	}
+
+	/**
+	 * Parses and executes a resource effect
+	 * @param {string} phrase the text from the effect
+	 */
+	executeResourceEffect(phrase) {
+		let phraseParts = phrase.split(" ");
+		let effect = parseInt(phraseParts[0]);
+		let resource = phraseParts[1];
+		this._resources[resource].level = effect;
+	}
+
+	/**
+	 * Parses and executes a resource effect
+	 * @param {string} phrase the text from the effect
+	 */
+	executeInfrastructureEffect(phrase) {
+		let phraseParts = phrase.split(" ");
+		var effect = phraseParts[0].trim().toLowerCase();
+		if(effect === "disable") {
+			effect = false;
+		} else if (effect === "enable") {
+			effect = true;
+		}
+		let infrastructure = phraseParts[1];
+		this._infrastructure[infrastructure].status = effect;
 	}
 }
