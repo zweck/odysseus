@@ -1,6 +1,9 @@
 import DecisionView from './Views/DecisionView';
 
-export default class Decision {
+/**
+ * @class
+ */
+class Decision {
 	constructor(options){
 		this._choices = options.choices;
 		this._resources = options.resources;
@@ -74,3 +77,5 @@ export default class Decision {
 		this._infrastructure[infrastructure].status = effect;
 	}
 }
+
+export default Decision;

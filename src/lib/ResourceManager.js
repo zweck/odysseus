@@ -1,6 +1,9 @@
 import Resource from './Resource';
 
-export default class ResourceManager {
+/**
+ * @class
+ */
+class ResourceManager {
 
 	constructor(resources){
 		this.resources = resources;
@@ -16,3 +19,5 @@ export default class ResourceManager {
 		this.resourcesByName[resource.name] = resource;
 	}
 }
+
+export default ResourceManager;

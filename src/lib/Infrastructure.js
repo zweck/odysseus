@@ -1,6 +1,9 @@
 import InfrastructureView from './Views/InfrastructureView';
 
-export default class Infrastructure {
+/**
+ * @class
+ */
+class Infrastructure {
 
 	constructor(options){
 		this.name = options.name;
@@ -19,3 +22,5 @@ export default class Infrastructure {
 		this._infrastructureView.render( {name: this.name, status: this.status} );
 	}
 }
+
+export default Infrastructure;

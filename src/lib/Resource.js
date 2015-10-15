@@ -1,6 +1,9 @@
 import ResourceView from './Views/ResourceView';
 
-export default class Resources {
+/**
+ * @class
+ */
+class Resources {
 
 	constructor(options){
 		this.name = options.name;
@@ -18,3 +21,5 @@ export default class Resources {
 		this._resourceView.render( {name: this.name, level: this.level} );
 	}
 }
+
+export default Resources;
