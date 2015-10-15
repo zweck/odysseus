@@ -1,4 +1,4 @@
-import Resources from './Resources';
+import Resource from './Resource';
 
 export default class ResourceManager {
 
@@ -11,8 +11,8 @@ export default class ResourceManager {
 		});
 	}
 
-	set resource(rersc){
-		var resource = new Resources(rersc);
+	set resource(resource){
+		resource = new Resource(resource);
 		this.resourcesByName[resource.name] = resource;
 	}
 }

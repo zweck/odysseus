@@ -2,31 +2,24 @@
 import config from './odysseusfile';
 
 // import the game classes
-import Character from "./lib/Character";
 import Narrative from "./lib/Narrative";
 
-
+// import the asset manager classes
 import InfrastructureManager from "./lib/InfrastructureManager";
 import ResourceManager from "./lib/ResourceManager";
+import CharacterManager from "./lib/CharacterManager";
 
 // import the Visuals View class to initialize some of the ui properties
 import UIView from "./lib/Views/UIView";
 
-// import the scenes
-var intro = require("./scenes/intro");
-
-// initialise the game resources
-let characters = config.characters.map(function (character) {
-	return new Character(character);
-});
-
-let ui = config._ui.map(function(ui){
+let ui = config.ui.map(function(ui){
 	return new UIView(ui);
 });
 
-// init the managers
+// init the asset managers
 let resources = new ResourceManager(config.resources);
 let infrastructure = new InfrastructureManager(config.infrastructure);
+let characters = new CharacterManager(config.characters);
 
 
 // pull any dev overrides from querystring
@@ -47,6 +40,9 @@ let narrative = new Narrative({
 	infrastructure: infrastructure,
 	ui: ui,
 });
+
+// import the first scene
+var intro = require("./scenes/intro");
 
 // entry point
 narrative.run(intro, "intro");

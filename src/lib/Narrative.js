@@ -26,13 +26,6 @@ export default class Narrative {
 		// enable any dev features requested
 		this.setupDev(options);
 
-		// create an object of characters mapping names against their 
-		// character class instance
-		this._charactersByName = {};
-		this._characters.forEach((character) => {
-			this._charactersByName[character.name] = character;
-		});
-
 		// create an object of uiview mapping sections against their 
 		// resource class instance
 		this._uiBySection = {};
@@ -81,7 +74,7 @@ export default class Narrative {
 	 */
 	getCharactersForNarrative(narrative){
 		var name = narrative.split(":")[0].trim();
-		return this._charactersByName[name] || false;
+		return this._characters.charactersByName[name] || false;
 	}
 
 	/**
@@ -165,7 +158,7 @@ export default class Narrative {
 			text;
 		
 		// get a the character from the front of the scene text string
-		character = this._charactersByName[utterance.characterName];
+		character = this._characters.charactersByName[utterance.characterName];
 
 		// if the character in the narrative isn't in the characters setup
 		// assume that its the protaganist

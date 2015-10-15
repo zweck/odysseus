@@ -12,7 +12,7 @@ export default class InfrastructureManager {
 	}
 
 	set infrastructure(infrastructure){
-		var infrastructure = new Infrastructure(infrastructure);
+		infrastructure = new Infrastructure(infrastructure);
 		this.infrastructureByName[infrastructure.name] = infrastructure;
 	}
 }
