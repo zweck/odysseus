@@ -4,8 +4,10 @@ import config from './odysseusfile';
 // import the game classes
 import Character from "./lib/Character";
 import Narrative from "./lib/Narrative";
-import Resources from "./lib/Resources";
-import Infrastructure from "./lib/Infrastructure";
+
+
+import InfrastructureManager from "./lib/InfrastructureManager";
+import ResourceManager from "./lib/ResourceManager";
 
 // import the Visuals View class to initialize some of the ui properties
 import UIView from "./lib/Views/UIView";
@@ -18,17 +20,14 @@ let characters = config.characters.map(function (character) {
 	return new Character(character);
 });
 
-let resources = config.resources.map(function(resource){
-	return new Resources(resource);
-});
-
-let infrastructure = config.infrastructure.map(function(infrastructure){
-	return new Infrastructure(infrastructure);
-});
-
 let ui = config._ui.map(function(ui){
 	return new UIView(ui);
 });
+
+// init the managers
+let resources = new ResourceManager(config.resources);
+let infrastructure = new InfrastructureManager(config.infrastructure);
+
 
 // pull any dev overrides from querystring
 // @todo use something like @link https://www.npmjs.com/package/nconf for hierarchical, environment-based configs, instead of querystring

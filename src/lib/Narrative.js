@@ -33,22 +33,6 @@ export default class Narrative {
 			this._charactersByName[character.name] = character;
 		});
 
-		// create an object of resources mapping names against their 
-		// resource class instance
-		this._resourcesByName = {};
-		this._resources.forEach((resource) => {
-			this._resourcesByName[resource.name] = resource;
-		});		
-
-
-		// create an object of infrastructure mapping names against their 
-		// resource class instance
-		this._infrastructureByName = {};
-		this._infrastructure.forEach((infrastructure) => {
-			this._infrastructureByName[infrastructure.name] = infrastructure;
-		});	
-
-
 		// create an object of uiview mapping sections against their 
 		// resource class instance
 		this._uiBySection = {};
@@ -212,8 +196,8 @@ export default class Narrative {
 
 		this._decision = new Decision({
 			choices: decision.choices,
-			infrastructure: this._infrastructureByName,
-			resources: this._resourcesByName,
+			infrastructure: this._infrastructure.infrastructureByName,
+			resources: this._resources.resourcesByName,
 			narrative: this,
 		});
 
