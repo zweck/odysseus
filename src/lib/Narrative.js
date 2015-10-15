@@ -23,6 +23,10 @@ export default class Narrative {
 		this._infrastructure = options.infrastructure;
 		this._ui = options.ui;
 
+		this._resources.on("change:resource:Killowatts", function(data){
+			console.log(data);
+		});
+
 		// enable any dev features requested
 		this.setupDev(options);
 
