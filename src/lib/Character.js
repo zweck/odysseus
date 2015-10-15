@@ -1,4 +1,7 @@
-export default class Character {
+/**
+ * @class
+ */
+class Character {
 	constructor(name){
 		this.name = name;
 	}
@@ -7,3 +10,5 @@ export default class Character {
 		
 	}
 }
+
+export default Character;

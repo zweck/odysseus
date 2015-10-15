@@ -1,6 +1,9 @@
 import Infrastructure from './Infrastructure';
 
-export default class InfrastructureManager {
+/**
+ * @class
+ */
+class InfrastructureManager {
 
 	constructor(infrastructures){
 		this.infrastructures = infrastructures;
@@ -16,3 +19,5 @@ export default class InfrastructureManager {
 		this.infrastructureByName[infrastructure.name] = infrastructure;
 	}
 }
+
+export default InfrastructureManager;

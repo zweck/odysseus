@@ -1,4 +1,7 @@
-export default class Utterance {
+/**
+ * @class
+ */
+class Utterance {
 
 	constructor(entry) {
 		this._entry = entry;
@@ -38,3 +41,5 @@ export default class Utterance {
 	}
 
 }
+
+export default Utterance;
