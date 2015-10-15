@@ -4,7 +4,8 @@
   "description": "A text based adventure game engine",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc -d docs src/**"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "gulp-sass": "^2.0.4",
     "gulp-uglify": "^1.4.1",
     "gulp-watch": "^4.3.5",
+    "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
     "source-map": "^0.5.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
