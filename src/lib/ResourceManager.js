@@ -22,15 +22,11 @@ class ResourceManager {
 		resource.on("change:level", this.callback);
 		this.resourcesByName[resource.name] = resource;
 	}
-<<<<<<< HEAD
 
 	callback(resource){
 		this.manager.trigger("change:resource:" + resource.name, this);
 	}
 
 }
-=======
-}
 
 export default ResourceManager;
->>>>>>> develop
