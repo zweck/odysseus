@@ -1,8 +1,6 @@
 let config = {
 
-	// These are private properties that 
-	// bind to ui elements
-	_ui: [
+	ui: [
 		{section: "menu", state: false, selector: "#menu"},
 	],
 

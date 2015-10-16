@@ -1,4 +1,7 @@
-export default class Progress {
+/**
+ * @class
+ */
+class Progress {
 
 	constructor(options){
 		this._resources = options.resources;
@@ -71,3 +74,5 @@ export default class Progress {
 		localStorage.removeItem("decisionProgress");
 	}
 }
+
+export default Progress;

@@ -8,7 +8,10 @@ import Progress from './Progress';
 // be done manually until I find a way of dynamically loading modules
 let FindDroneScene = require('../scenes/find-drone');
 
-export default class Narrative {
+/**
+ * @class
+ */
+class Narrative {
 	constructor(options){
 
 		this.narrativeView = new NarrativeView();
@@ -26,29 +29,6 @@ export default class Narrative {
 
 		// enable any dev features requested
 		this.setupDev(options);
-
-		// create an object of characters mapping names against their 
-		// character class instance
-		this._charactersByName = {};
-		this._characters.forEach((character) => {
-			this._charactersByName[character.name] = character;
-		});
-
-		// create an object of resources mapping names against their 
-		// resource class instance
-		this._resourcesByName = {};
-		this._resources.forEach((resource) => {
-			this._resourcesByName[resource.name] = resource;
-		});		
-
-
-		// create an object of infrastructure mapping names against their 
-		// resource class instance
-		this._infrastructureByName = {};
-		this._infrastructure.forEach((infrastructure) => {
-			this._infrastructureByName[infrastructure.name] = infrastructure;
-		});	
-
 
 		// create an object of uiview mapping sections against their 
 		// resource class instance
@@ -108,7 +88,7 @@ export default class Narrative {
 	 */
 	getCharactersForNarrative(narrative){
 		var name = narrative.split(":")[0].trim();
-		return this._charactersByName[name] || false;
+		return this._characters.charactersByName[name] || false;
 	}
 
 	/**
@@ -192,7 +172,7 @@ export default class Narrative {
 			text;
 		
 		// get a the character from the front of the scene text string
-		character = this._charactersByName[utterance.characterName];
+		character = this._characters.charactersByName[utterance.characterName];
 
 		// if the character in the narrative isn't in the characters setup
 		// assume that its the protaganist
@@ -223,8 +203,8 @@ export default class Narrative {
 
 		this._decision = new Decision({
 			choices: decision.choices,
-			infrastructure: this._infrastructureByName,
-			resources: this._resourcesByName,
+			infrastructure: this._infrastructure.infrastructureByName,
+			resources: this._resources.resourcesByName,
 			narrative: this,
 			globalProgress: this._globalProgress,
 		});
@@ -270,3 +250,5 @@ export default class Narrative {
 		}
 	}
 }
+
+export default Narrative;
