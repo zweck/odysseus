@@ -1,10 +1,10 @@
 import Resource from './Resource';
-import Event from './Event'
+import Evented from './Evented'
 
 /**
  * @class
  */
-class ResourceManager {
+class ResourceManager extends Evented {
 
 	constructor(resources){
 		super();
@@ -13,20 +13,13 @@ class ResourceManager {
 		this.callbacks = [];
 
 		this.resources.forEach((resource) => {
-			this.resource = resource;
+			resource = new Resource(resource);
+			resource.on("change:level", () => {
+				this.trigger("change:resource:" + resource.name, this);
+			});
+			this.resourcesByName[resource.name] = resource;
 		});
 	}
-
-	set resource(resource){
-		resource = new Resource({resource: resource, manager: this});
-		resource.on("change:level", this.callback);
-		this.resourcesByName[resource.name] = resource;
-	}
-
-	callback(resource){
-		this.manager.trigger("change:resource:" + resource.name, this);
-	}
-
 }
 
 export default ResourceManager;

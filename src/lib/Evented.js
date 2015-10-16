@@ -4,7 +4,7 @@ const channelSep = /:+/g;
 /**
  * @class
  */
-class EventClass {
+class EventedClass {
     constructor(){
         this._channels = {};
     }
@@ -80,4 +80,4 @@ class EventClass {
     }
 }
 
-export default EventClass;
+export default EventedClass;
