@@ -4,14 +4,14 @@ import Evented from './Evented'
 /**
  * @description This class is a factory class and event manager for resources
  * @extends Evented
+ * @public {object} resourcesByName This is a hash of resources key'ed by the resource name
  * @class
  */
 class ResourceManager extends Evented {
 
 	/**
  	 * @description The classes constructure which calls the super() and sets up some properties as well as creating the events
-	 * @property {Object} resourcesByName This is a hash of resources key'ed by the resource name
-	 * @param  {Array<Object>} resources An array of resources e.g [{name: Killowatts, initial: 10}, {name: o2, initial: 5}]
+	 * @param  {array<object>} resources An array of resources e.g [{name: Killowatts, initial: 10}, {name: o2, initial: 5}]
 	 */
 	constructor(resources){
 		super();
