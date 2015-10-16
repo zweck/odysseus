@@ -1,5 +1,5 @@
 import ResourceView from './Views/ResourceView';
-import Evented from './Evented'
+import Evented from './Evented';
 
 /**
  * @description A simple class for initialising resources

@@ -1,5 +1,5 @@
 import Resource from './Resource';
-import Evented from './Evented'
+import Evented from './Evented';
 
 /**
  * @description This class is a factory class and event manager for resources
