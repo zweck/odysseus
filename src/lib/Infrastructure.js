@@ -1,11 +1,13 @@
 import InfrastructureView from './Views/InfrastructureView';
+import Evented from './Evented';
 
 /**
  * @class
  */
-class Infrastructure {
+class Infrastructure extends Evented {
 
 	constructor(options){
+		super();
 		this.name = options.name;
 		this._status = options.status;
 
@@ -20,6 +22,7 @@ class Infrastructure {
 	set status(status){
 		this._status = status;
 		this._infrastructureView.render( {name: this.name, status: this.status} );
+		this.trigger("change:status", this);
 	}
 }
 
