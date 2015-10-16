@@ -37,7 +37,6 @@ export default class DecisionView {
 			el = btn;
 		while (el.previousSibling) {
 			el = el.previousSibling;
-			console.log(el)
 			if (el.nodeType == 1) {
 				idx ++;
 			}

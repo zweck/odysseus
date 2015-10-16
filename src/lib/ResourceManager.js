@@ -1,7 +1,10 @@
 import Resource from './Resource';
 import Event from './Event'
 
-export default class ResourceManager extends Event {
+/**
+ * @class
+ */
+class ResourceManager {
 
 	constructor(resources){
 		super();
@@ -19,9 +22,15 @@ export default class ResourceManager extends Event {
 		resource.on("change:level", this.callback);
 		this.resourcesByName[resource.name] = resource;
 	}
+<<<<<<< HEAD
 
 	callback(resource){
 		this.manager.trigger("change:resource:" + resource.name, this);
 	}
 
 }
+=======
+}
+
+export default ResourceManager;
+>>>>>>> develop

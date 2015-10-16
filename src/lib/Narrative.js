@@ -8,7 +8,10 @@ import Progress from './Progress';
 // be done manually until I find a way of dynamically loading modules
 let FindDroneScene = require('../scenes/find-drone');
 
-export default class Narrative {
+/**
+ * @class
+ */
+class Narrative {
 	constructor(options){
 
 		this.globalProgress = new Progress();
@@ -239,3 +242,5 @@ export default class Narrative {
 		}
 	}
 }
+
+export default Narrative;

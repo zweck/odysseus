@@ -1,7 +1,10 @@
 import ResourceView from './Views/ResourceView';
 import Event from './Event'
 
-export default class Resource extends Event {
+/**
+ * @class
+ */
+class Resources {
 
 	constructor(options){
 		super();
@@ -24,3 +27,5 @@ export default class Resource extends Event {
 		this.trigger("change:level", this);
 	}
 }
+
+export default Resources;

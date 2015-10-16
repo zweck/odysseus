@@ -1,7 +1,10 @@
 const multiChannelSep = /(?:,|\s)+/g;
 const channelSep = /:+/g;
 
-export default class EventClass {
+/**
+ * @class
+ */
+class EventClass {
     constructor(){
         this._channels = {};
     }
@@ -76,3 +79,5 @@ export default class EventClass {
         this.on(event, offCallback);
     }
 }
+
+export default EventClass;

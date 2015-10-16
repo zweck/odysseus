@@ -1,4 +1,7 @@
-export default class Progress {
+/**
+ * @class
+ */
+class Progress {
 
 	get progress(){
 
@@ -11,3 +14,5 @@ export default class Progress {
 		this._progress = progress;
 	}
 }
+
+export default Progress;

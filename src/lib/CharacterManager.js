@@ -1,6 +1,9 @@
 import Character from './Character';
 
-export default class CharacterManager {
+/**
+ * @class
+ */
+class CharacterManager {
 
 	constructor(characters){
 		this.characters = characters;
@@ -16,3 +19,5 @@ export default class CharacterManager {
 		this.charactersByName[character.name] = character;
 	}
 }
+
+export default CharacterManager;
