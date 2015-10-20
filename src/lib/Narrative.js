@@ -2,17 +2,20 @@ import NarrativeView from './Views/NarrativeView';
 import UIView from './Views/UIView';
 import Decision from './Decision';
 import Utterance from './Utterance';
-import Progress from './Progress';
+
+import Evented from './Evented';
 
 // map the scenes for require, this currently needs to 
 // be done manually until I find a way of dynamically loading modules
+let IntroScene = require('../scenes/intro');
 let FindDroneScene = require('../scenes/find-drone');
 
 /**
  * @class
  */
-class Narrative {
+class Narrative extends Evented {
 	constructor(options){
+		super();
 
 		this.narrativeView = new NarrativeView();
 
@@ -24,8 +27,6 @@ class Narrative {
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
 		this._ui = options.ui;
-		this._globalProgress = options.globalProgress;
-
 
 		// enable any dev features requested
 		this.setupDev(options);
@@ -46,14 +47,6 @@ class Narrative {
 		return this._narrative;
 	}
 
-	set narrativeProgress(progress){
-		this._globalProgress.narrative = progress;
-	}
-
-	get narrativeProgress(){
-		return this._globalProgress.narrative;
-	}
-
 	/**
 	 * This method is the initialiser for the narrative class
 	 * @param  {Array<String>} narrative This method takes a scene and runs through it
@@ -61,14 +54,17 @@ class Narrative {
 	run(scene, sceneName){
 		this.narrativeView.scene = sceneName;
 		this.narrative = scene;
-		this.narrativeProgress = { scene: sceneName, index: this._progress };
 		this.go();
 	}
 
-	moveScene(scene){
+	moveScene(scene, progress){
 		var nextScene = require("../scenes/" + scene);
 		this._progress = 0;
 		this.run(nextScene, scene);
+
+		for (var i = progress - 1; i >= 0; i--) {
+			this.skip();
+		};
 	}
 
 	/**
@@ -78,7 +74,6 @@ class Narrative {
 	incrementProgress(incAmount=1){
 		var incAmount = incAmount;
 		this._progress = this._progress + incAmount;
-		this.narrativeProgress = { index: this._progress };
 	}
 
 	/**
@@ -120,6 +115,9 @@ class Narrative {
 
 		// get the scene narrative
 		var narrative = this.narrative;
+
+		// trigger a progress event for the narrative
+		this.trigger("progress:narrative", {scene: this.narrativeView.scene, progress: i});
 		
 		// if we're still in a narrative
 		if( i < narrative.length ){
@@ -206,7 +204,6 @@ class Narrative {
 			infrastructure: this._infrastructure.infrastructureByName,
 			resources: this._resources.resourcesByName,
 			narrative: this,
-			globalProgress: this._globalProgress,
 		});
 
 	}

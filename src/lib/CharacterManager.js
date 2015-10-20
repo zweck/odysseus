@@ -12,9 +12,13 @@ class CharacterManager extends Evented {
 	 */
 	constructor(characters){
 		super();
-		this.characters = characters;
+
+		/**
+		 * @public
+		 */
 		this.charactersByName = {};
 
+		this.characters = characters;
 		this.characters.forEach((character) => {
 			character = new Character(character);
 			this.charactersByName[character.name] = character;

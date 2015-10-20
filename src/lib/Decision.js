@@ -10,7 +10,6 @@ class Decision {
 		this._infrastructure = options.infrastructure;
 		this._decisionView = new DecisionView(this);
 		this._narrative = options.narrative;
-		this._globalProgress = options.globalProgress;
 
 		this.init();
 	}
@@ -46,8 +45,6 @@ class Decision {
 					console.log(effect);
 			}
 		});
-
-		this._globalProgress.decisions = choice;
 
 		// Goto next scene as directed
 		this._narrative.moveScene(choice.goto);

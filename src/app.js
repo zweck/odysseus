@@ -26,15 +26,13 @@ let characters = new CharacterManager(config.characters);
 // pull any dev overrides from querystring
 // @todo use something like @link https://www.npmjs.com/package/nconf for hierarchical, environment-based configs, instead of querystring
 // @todo figure out a cleaner strategy for using common-js requires alongside es6 (too lazy to google just now)
-let queryString = require('querystring').parse(window.location.toString().split('?').pop());
+let queryString = require('querystring').parse(window.location.toString().split('?').pop()), loadSave;
 if (Object.keys(queryString).indexOf('dev') !== -1) {
 	config.environment = 'development';
 }
-
-let progress = new Progress({
-	resources: resources,
-	infrastructure: infrastructure,
-});
+if(Object.keys(queryString).indexOf('loadSave') !== -1){
+	loadSave = true;
+}
 
 // load the narrative
 let narrative = new Narrative({
@@ -45,11 +43,26 @@ let narrative = new Narrative({
 	characters: characters,
 	infrastructure: infrastructure,
 	ui: ui,
-	globalProgress: progress,
 });
+
+
+
+let progress = new Progress({
+	resources: resources,
+	infrastructure: infrastructure,
+	narrative: narrative,
+});
+
 
 // import the first scene
 var intro = require("./scenes/intro");
 
-// entry point
-narrative.run(intro, "intro");
+if(loadSave){
+	progress.load();
+}else{
+	progress.reset();
+	// entry point
+	narrative.run(intro, "intro");	
+}
+
+

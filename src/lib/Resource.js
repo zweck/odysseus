@@ -4,10 +4,6 @@ import Evented from './Evented';
 /**
  * @description A simple class for initialising resources
  * @extends Evented
- * @private {number}	_level			This is the level of the resource
- * @private {object}	_resourceView	This is an instance of the Resource View class
- * @public	{string}	name 			This is the name of the resource
- * @public	{number}	level 			This is a wrapper for the _level with setter and getters
  * @class
  */
 class Resources extends Evented {
@@ -18,10 +14,20 @@ class Resources extends Evented {
 	 */
 	constructor(options){
 		super();
+
+		/**
+		 * @public {string}
+		 */
 		this.name = options.name;
+
+		// These are private properties
 		this._level = options.initial;
 		this._resourceView = new ResourceView();
 		this._resourceView.render( {name: this.name, level: this.level} );
+	}
+
+	overrideLevel(level){
+		this._level = level;
 	}
 
 	/**

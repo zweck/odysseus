@@ -1,3 +1,8 @@
+function handleError(err) {
+  console.log(err.toString());
+  this.emit('end');
+}
+
 var gulp = require('gulp'),
     hb = require('gulp-hb'),
     watch = require('gulp-watch'),
@@ -18,7 +23,8 @@ gulp.task('js', function(){
 	browserify(['src/app.js', 'src/scenes/find-drone.js'], {debug: true})
 		.transform(babelify)
 		.bundle()
-        .pipe(source('app.js'))
+    .on('error', handleError)
+    .pipe(source('app.js'))
 		.pipe(buffer())
 		.pipe(gulp.dest('./dist/'))
 		.pipe(connect.reload());
