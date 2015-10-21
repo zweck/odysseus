@@ -27,7 +27,9 @@ class Resources extends Evented {
 	}
 
 	overrideLevel(level){
-		this._level = level;
+		this._level = level;		
+		this._resourceView.render( {name: this.name, level: this.level} );
+		this.trigger("change:level", this);
 	}
 
 	/**

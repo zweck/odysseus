@@ -62,7 +62,7 @@ class Narrative extends Evented {
 		this._progress = 0;
 		this.run(nextScene, scene);
 
-		for (var i = progress - 1; i >= 0; i--) {
+		for(var i = progress - 1; i >= 0; i--) {
 			this.skip();
 		};
 	}
@@ -115,12 +115,14 @@ class Narrative extends Evented {
 
 		// get the scene narrative
 		var narrative = this.narrative;
-
-		// trigger a progress event for the narrative
-		this.trigger("progress:narrative", {scene: this.narrativeView.scene, progress: i});
 		
 		// if we're still in a narrative
 		if( i < narrative.length ){
+
+			// trigger a progress event for the narrative
+			this.trigger("progress:narrative", {scene: this.narrativeView.scene, progress: i});
+
+
 			let entry = narrative[i];
 			// get the `type` of object in the scene array
 			let entryType = typeof entry;

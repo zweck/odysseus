@@ -58,12 +58,27 @@ class Progress {
 	 * Called whenever the narrative advances and saves the progress into localstorage
 	 */
 	set narrativeProgress(data){
-		var narrativeJSON = JSON.stringify(data);
+		var narrativeProgress = this.narrativeProgress;
+		var newScene = true;
+
+		for (var i = narrativeProgress.length - 1; i >= 0; i--) {
+			if(narrativeProgress[i].scene == data.scene){
+				narrativeProgress[i].progress = data.progress;
+				newScene = false;
+			}
+		};
+
+		if(newScene){
+			narrativeProgress.push(data);
+		}
+
+		var narrativeJSON = JSON.stringify(narrativeProgress);
 		localStorage.setItem("narrativeProgress", narrativeJSON);
 	}
 
 	get narrativeProgress(){
-		return JSON.parse(localStorage.getItem("narrativeProgress"));
+		var narrativeProgress = JSON.parse(localStorage.getItem("narrativeProgress"))
+		return narrativeProgress || [];
 	}
 
 
@@ -81,15 +96,22 @@ class Progress {
 			}
 		}
 
-		// load the narrative
-		var scene = "intro", progress = 0;
-		if(this.narrativeProgress){
-			progress = this.narrativeProgress.progress;
-			if(progress < 0){ progress = progress - 1 }
-			scene = this.narrativeProgress.scene;
-		}
+		// load the narrative by looping through the narrative
+		// progress and jumping through each stage
+		var scene, progress;
+		if(this.narrativeProgress.length > 0){
 
-		this._narrative.moveScene(scene, progress);		
+			for (var i = 0; i < this.narrativeProgress.length; i++) {
+				progress = this.narrativeProgress[i].progress;
+				scene = this.narrativeProgress[i].scene;
+
+				//if(progress < 0){ progress = progress - 1 }
+				this._narrative.moveScene(scene, progress);		
+			};
+
+		}else{
+			this._narrative.moveScene("intro");		
+		}
 
 	}
 
@@ -99,6 +121,7 @@ class Progress {
 	 */
 	reset(){
 		localStorage.removeItem("resourcesProgress");
+		localStorage.removeItem("narrativeProgress");
 	}
 }
 
