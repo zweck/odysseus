@@ -58,7 +58,7 @@ class Decision {
 		let phraseParts = phrase.split(" ");
 		let effect = parseInt(phraseParts[0]);
 		let resource = phraseParts[1];
-		this._resources[resource].level = effect;
+		this._resources[resource].incr(effect);
 	}
 
 	/**
