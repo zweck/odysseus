@@ -34,12 +34,21 @@ class Resources extends Evented {
 
 	/**
 	 * @description The level setter
-	 * @param {number} The amount to adjust the level by
+	 * @param {number} The new level
 	 */
-	set level(levelAdjust){
-		this._level = this._level + levelAdjust;
+	set level(level){
+		this._level = level;
 		this._resourceView.render( {name: this.name, level: this.level} );
 		this.trigger("change:level", this);
+	}
+
+	/**
+	 * Adjust the level
+	 * @param  {number} amount Amount by which to adjust the level
+	 * @return {number}        The new level
+	 */
+	incr(amount) {
+		this.level = this.level + amount;
 	}
 }
 
