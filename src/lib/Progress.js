@@ -6,8 +6,6 @@ class Progress {
 	constructor(options){
 
 		// setup some private classes
-		// this._resources = options.resources;
-		// this._infrastructure = options.infrastructure;
 		this._narrative = options.narrative;
 
 		// bind to events for progress saving
@@ -18,15 +16,8 @@ class Progress {
 	 * This method binds our events for tracking progress
 	 */
 	bindResourceChange(){
-
 		var self = this;
-
 		this._narrative.on("progress:narrative", function(data){ self.narrativeProgress = data });
-
-		// for(var resource in this._resources.resourcesByName){
-		// 	this._resources.on("change:resource:" + resource, function(data){ self.resourcesChanged(data) });
-		// }
-
 	}
 
 	set decision(decisionObject){
@@ -36,30 +27,6 @@ class Progress {
 	get decision(){
 
 	}
-
-	// /**
-	//  * Called once a resource has been changed, it creates a flattened js object to put into localstorage
-	//  */
-	// resourcesChanged(){
-	// 	var strippedResources = {};
-
-	// 	for(var resourceObject in this._resources.resourcesByName){
-	// 		strippedResources[resourceObject] = this._resources.resourcesByName[resourceObject].level;
-	// 	}
-
-	// 	this.resourceProgress = strippedResources;
-	// }
-
-	// get resourceProgress(){
-	// 	var progressJSON = localStorage.getItem("resourcesProgress");
-	// 	return progressJSON;
-	// }
-
-	// set resourceProgress(resourceObject){
-	// 	var resourceJSON = JSON.stringify(resourceObject);
-	// 	localStorage.setItem("resourcesProgress", resourceJSON);
-	// }
-
 
 
 	/**
@@ -96,29 +63,28 @@ class Progress {
 	 */
 	load(){
 
-		// // load the resources
-		// var resourceProgressObject = JSON.parse(this.resourceProgress);
-		// if(resourceProgressObject){
-		// 	for(var resourceObject in this._resources.resourcesByName){
-		// 		this._resources.resourcesByName[resourceObject].overrideLevel(resourceProgressObject[resourceObject]);
-		// 	}
-		// }
-
 		// load the narrative by looping through the narrative
 		// progress and jumping through each stage
 		var scene, progress;
 		if(this.narrativeProgress.length > 0){
 
+			// loop though the saved scenes
 			for (var i = 0; i < this.narrativeProgress.length; i++) {
+				
+				// grab the progress data from them
 				progress = this.narrativeProgress[i].progress;
 				scene = this.narrativeProgress[i].scene;
-
+				
+				// if there is no progress for a saved scene set it to 1 
 				if(progress === 0){ progress = 1 }
+
+				// load the scene at the progress point
 				this._narrative.loadAtPoint(scene, progress);		
 			};
 
+		// if there is no saved state, then just start from the begining
 		}else{
-			this._narrative.run(require("../scenes/intro"), "intro");
+			this._narrative.run(require("../scenes/" + this._narrative.initialScene), this._narrative.initialScene);
 		}
 
 	}
@@ -128,7 +94,7 @@ class Progress {
 	 * @method
 	 */
 	reset(){
-		// localStorage.removeItem("resourcesProgress");
+		localStorage.removeItem("decisionProgress");
 		localStorage.removeItem("narrativeProgress");
 	}
 }

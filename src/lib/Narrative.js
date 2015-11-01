@@ -63,6 +63,11 @@ class Narrative extends Evented {
 		this.go();
 	}
 
+	/**
+	 * This method loops through the scene until the saved progress of the current scene is reached
+	 * @param  {string} scene 		This parameter should contain the scene name saved progress level to skip though
+	 * @param  {number} progress 	This parameter should contain point in the scene to skip to
+	 */
 	loadAtPoint(scene, progress){
 		this.narrativeView.scene = scene;
 		this.narrative = require("../scenes/" + scene);
@@ -76,7 +81,11 @@ class Narrative extends Evented {
 		};
 	}
 
-	moveScene(scene, progress){
+	/**
+	 * This method loads the next scene
+	 * @param  {string} scene This parameter should contain the scene name for the next scene to load
+	 */
+	moveScene(scene){
 		var nextScene = require("../scenes/" + scene);
 		this._progress = 0;
 		this.run(nextScene, scene);
