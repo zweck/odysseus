@@ -27,6 +27,7 @@ class Narrative extends Evented {
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
 		this._ui = options.ui;
+		this._initialScene = options.initialScene
 
 		// enable any dev features requested
 		this.setupDev(options);
@@ -37,6 +38,11 @@ class Narrative extends Evented {
 		this._ui.forEach((ui) => {
 			this._uiBySection[ui.section] = ui;
 		});	
+	}
+
+	init(){
+		var initialScene = require('../scenes/' + this._initialScene);
+		this.run(initialScene, this._initialScene);
 	}
 
 	set narrative(scene){
@@ -57,14 +63,23 @@ class Narrative extends Evented {
 		this.go();
 	}
 
+	loadAtPoint(scene, progress){
+		this.narrativeView.scene = scene;
+		this.narrative = require("../scenes/" + scene);
+
+		for(var i = 0; i < progress; i++) {
+			this._progress = i;
+			if (this._waitTimer) {
+				clearTimeout(this._waitTimer);
+			}
+			this.go();	
+		};
+	}
+
 	moveScene(scene, progress){
 		var nextScene = require("../scenes/" + scene);
 		this._progress = 0;
 		this.run(nextScene, scene);
-
-		for(var i = progress - 1; i >= 0; i--) {
-			this.skip();
-		};
 	}
 
 	/**

@@ -43,26 +43,19 @@ let narrative = new Narrative({
 	characters: characters,
 	infrastructure: infrastructure,
 	ui: ui,
+	initialScene: config.initialScene,
 });
 
-
-
 let progress = new Progress({
-	resources: resources,
-	infrastructure: infrastructure,
 	narrative: narrative,
 });
 
-
-// import the first scene
-var intro = require("./scenes/intro");
-
+// if the loadSave param is passed then... load the save
 if(loadSave){
 	progress.load();
 }else{
 	progress.reset();
-	// entry point
-	narrative.run(intro, "intro");	
+	narrative.init();	
 }
 
 
