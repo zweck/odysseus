@@ -1,20 +1,22 @@
 import DecisionView from './Views/DecisionView';
 
+import Evented from './Evented';
+
 /**
  * @class
  */
-class Decision {
-	constructor(options){
+class Decision extends Evented {
+	constructor(){
+		super();
+	}
+
+	init(options){
 		this._choices = options.choices;
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
 		this._decisionView = new DecisionView(this);
 		this._narrative = options.narrative;
 
-		this.init();
-	}
-
-	init(){
 		this._decisionView.render();
 	}
 
@@ -27,6 +29,9 @@ class Decision {
 	 * @param  {Number} choiceIndex the, er, index of the choice
 	 */
 	selectChoice(choiceIndex) {
+		// trigger a progress event for the deicision
+		this.trigger("progress:decision", {choices: this.choices, choiceIndex: choiceIndex});
+
 		// Get choice and its effects
 		var choice = this._choices[choiceIndex],
 			effects = choice.effects;
