@@ -26,12 +26,12 @@ let characters = new CharacterManager(config.characters);
 // pull any dev overrides from querystring
 // @todo use something like @link https://www.npmjs.com/package/nconf for hierarchical, environment-based configs, instead of querystring
 // @todo figure out a cleaner strategy for using common-js requires alongside es6 (too lazy to google just now)
-let queryString = require('querystring').parse(window.location.toString().split('?').pop()), loadSave;
+let queryString = require('querystring').parse(window.location.toString().split('?').pop()), ignoreSave;
 if (Object.keys(queryString).indexOf('dev') !== -1) {
 	config.environment = 'development';
 }
-if(Object.keys(queryString).indexOf('loadSave') !== -1){
-	loadSave = true;
+if(Object.keys(queryString).indexOf('ignoreSave') !== -1){
+	ignoreSave = true;
 }
 
 // load the narrative
@@ -51,11 +51,11 @@ let progress = new Progress({
 });
 
 // if the loadSave param is passed then... load the save
-if(loadSave){
-	progress.load();
-}else{
+if(ignoreSave){
 	progress.reset();
-	narrative.init();	
+	narrative.init();
+}else{
+	progress.load();
 }
 
 
