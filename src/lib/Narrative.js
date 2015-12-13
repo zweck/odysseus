@@ -2,7 +2,6 @@ import NarrativeView from './Views/NarrativeView';
 import UIView from './Views/UIView';
 import Decision from './Decision';
 import Utterance from './Utterance';
-
 import Evented from './Evented';
 
 // map the scenes for require, this currently needs to 
@@ -224,14 +223,18 @@ class Narrative extends Evented {
 	}
 
 	decide(decision){
-
-		this._decision = new Decision({
-			choices: decision.choices,
-			infrastructure: this._infrastructure.infrastructureByName,
-			resources: this._resources.resourcesByName,
-			narrative: this,
+		// trigger the need for a decision to be handled. 
+		this.trigger("decision:required", {
+			decision: decision,
+			scene: this.narrativeView.scene, 
+			progress: this._progress, 
+			options: {
+				choices: decision.choices, 
+				infrastructure: this._infrastructure.infrastructureByName, 
+				resources: this._resources.resourcesByName,
+				narrative: this
+			}
 		});
-
 	}
 
 	wait(waitTime, i){
@@ -269,6 +272,14 @@ class Narrative extends Evented {
 				if (keyCode === 190) { // '.' to skip
 					this.skip();
 				}
+			});
+			
+			document.body.addEventListener('touchend', (e) => {
+					this.skip();
+			});
+			
+			document.body.addEventListener('mousedown', (e) => {
+					this.skip();
 			});
 		}
 	}

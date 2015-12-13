@@ -9,6 +9,7 @@ import Progress from './lib/Progress';
 import InfrastructureManager from "./lib/InfrastructureManager";
 import ResourceManager from "./lib/ResourceManager";
 import CharacterManager from "./lib/CharacterManager";
+import DecisionManager from "./lib/DecisionManager";
 
 // import the Visuals View class to initialize some of the ui properties
 import UIView from "./lib/Views/UIView";
@@ -21,7 +22,6 @@ let ui = config.ui.map(function(ui){
 let resources = new ResourceManager(config.resources);
 let infrastructure = new InfrastructureManager(config.infrastructure);
 let characters = new CharacterManager(config.characters);
-
 
 // pull any dev overrides from querystring
 // @todo use something like @link https://www.npmjs.com/package/nconf for hierarchical, environment-based configs, instead of querystring
@@ -47,6 +47,10 @@ let narrative = new Narrative({
 });
 
 let progress = new Progress({
+	narrative: narrative,
+});
+
+let decision = new DecisionManager({
 	narrative: narrative,
 });
 

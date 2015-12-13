@@ -1,10 +1,15 @@
 import DecisionView from './Views/DecisionView';
+import Evented from './Evented';
 
 /**
  * @class
  */
-class Decision {
+class Decision extends Evented {
 	constructor(options){
+	
+		// super call for Evented constructor
+		super();
+
 		this._choices = options.choices;
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
@@ -27,10 +32,11 @@ class Decision {
 	 * @param  {Number} choiceIndex the, er, index of the choice
 	 */
 	selectChoice(choiceIndex) {
+		
 		// Get choice and its effects
 		var choice = this._choices[choiceIndex],
 			effects = choice.effects;
-
+		
 		// Apply effects
 		Object.keys(effects).forEach((k) => {
 			let effect = effects[k];
@@ -46,6 +52,8 @@ class Decision {
 			}
 		});
 
+		//this.trigger("decision:made", {});
+		
 		// Goto next scene as directed
 		this._narrative.moveScene(choice.goto);
 	}

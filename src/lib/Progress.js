@@ -36,17 +36,24 @@ class Progress {
 		var narrativeProgress = this.narrativeProgress;
 		var newScene = true;
 
+		// loop through the narrative progress object from local storage
 		for (var i = narrativeProgress.length - 1; i >= 0; i--) {
-			if(narrativeProgress[i].scene == data.scene){
+		
+			// if you are in the same scene as the current narrative
+			if(narrativeProgress[i].scene === data.scene){
+			
+				// then set the progress for that item to the current progress point
 				narrativeProgress[i].progress = data.progress;
 				newScene = false;
 			}
 		};
 
+		// if you have entered a new scene then save the whole event data
 		if(newScene){
 			narrativeProgress.push(data);
 		}
-
+		
+		// save the progress object to localStorage
 		var narrativeJSON = JSON.stringify(narrativeProgress);
 		localStorage.setItem("narrativeProgress", narrativeJSON);
 	}

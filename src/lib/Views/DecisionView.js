@@ -31,7 +31,7 @@ export default class DecisionView {
 			this.decicionButtons[i].disabled = "true";
 		};
 		// Get selected button
-		var btn = evt.target || event.srcElement;
+		var btn = evt.target || evt.srcElement;
 		// Get index of selected button
 		var idx = 0,
 			el = btn;
