@@ -35,3 +35,6 @@ docs/
 
 # Build directory
 dist
+
+# global node modules symlinked
+gulp
