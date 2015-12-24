@@ -9,58 +9,77 @@ class Progress {
 		this._narrative = options.narrative;
 
 		// bind to events for progress saving
-		this.bindResourceChange();
+		this.bindEvents();
 	}
 
 	/**
 	 * This method binds our events for tracking progress
 	 */
-	bindResourceChange(){
+	bindEvents(){
 		var self = this;
-		this._narrative.on("progress:narrative", function(data){ self.narrativeProgress = data });
+		this._narrative.on("progress:narrative", (data)=>{ 
+			this.progress = data 
+		});
+		this._narrative.on("decision:made", (data)=>{ 
+			this.progress = data;
+		});
 	}
-
-	set decision(decisionObject){
-
+	
+	type(instance){
+		return instance.constructor.name;
 	}
-
-	get decision(){
-
-	}
-
 
 	/**
 	 * Called whenever the narrative advances and saves the progress into localstorage
 	 */
-	set narrativeProgress(data){
-		var narrativeProgress = this.narrativeProgress;
-		var newScene = true;
-
-		// loop through the narrative progress object from local storage
-		for (var i = narrativeProgress.length - 1; i >= 0; i--) {
-		
-			// if you are in the same scene as the current narrative
-			if(narrativeProgress[i].scene === data.scene){
+	set progress(advancement){
+	
+		var eventType = this.type(advancement.class),
+			progress = this.progress,
+			adv = advancement;
 			
-				// then set the progress for that item to the current progress point
-				narrativeProgress[i].progress = data.progress;
-				newScene = false;
-			}
-		};
+		// replace the class object with the type
+		delete adv.class
+		adv.type = eventType;
+	
+		switch(eventType) {
+			case "Decision":
+				// if a decision event has occured, save the choice
+				progress.push(adv);
+			break;
+			case "Narrative":
+				var newScene = true;
+		
+				// loop through the narrative progress object from local storage
+				for (var i = progress.length - 1; i >= 0; i--) {
+				
+					// if you are in the same scene as the current narrative
+					if(progress[i].scene === adv.scene){
+					
+						// then set the progress for that item to the current progress point
+						progress[i].progress = adv.progress;
+						newScene = false;
+					}
+				};
+		
+				// if you have entered a new scene then save the whole event data
+				if(newScene){
+					progress.push(adv);
+				}
+				
+			break;
+			default:
 
-		// if you have entered a new scene then save the whole event data
-		if(newScene){
-			narrativeProgress.push(data);
 		}
 		
 		// save the progress object to localStorage
-		var narrativeJSON = JSON.stringify(narrativeProgress);
-		localStorage.setItem("narrativeProgress", narrativeJSON);
+		var progressJSON = JSON.stringify(progress);
+		localStorage.setItem("progress", progressJSON);
 	}
 
-	get narrativeProgress(){
-		var narrativeProgress = JSON.parse(localStorage.getItem("narrativeProgress"))
-		return narrativeProgress || [];
+	get progress(){
+		var progress = JSON.parse(localStorage.getItem("progress"));
+		return progress || [];
 	}
 
 
@@ -69,24 +88,40 @@ class Progress {
 	 * @method
 	 */
 	load(){
-
+	
 		// load the narrative by looping through the narrative
 		// progress and jumping through each stage
 		var scene, progress;
-		if(this.narrativeProgress.length > 0){
+		
+		if(this.progress.length > 0){
 
 			// loop though the saved scenes
-			for (var i = 0; i < this.narrativeProgress.length; i++) {
+			for (var i = 0; i < this.progress.length; i++) {
 				
-				// grab the progress data from them
-				progress = this.narrativeProgress[i].progress;
-				scene = this.narrativeProgress[i].scene;
 				
-				// if there is no progress for a saved scene set it to 1 
-				if(progress === 0){ progress = 1 }
-
-				// load the scene at the progress point
-				this._narrative.loadAtPoint(scene, progress);		
+				switch(this.progress[i].type) {
+					case "Decision":
+						alert(JSON.stringify(this.progress[i]))
+						this._narrative.trigger("decision:made", {choices: this.progress[i];
+						});
+					break;
+					case "Narrative":
+						
+						// grab the progress data from them
+						progress = this.progress[i].progress;
+						scene = this.progress[i].scene;
+						
+						// if there is no progress for a saved scene set it to 1 
+						if(progress === 0){ progress = 1 }
+		
+						// load the scene at the progress point
+						this._narrative.loadAtPoint(scene, progress);
+						
+					break;
+					default:
+		
+				}
+						
 			};
 
 		// if there is no saved state, then just start from the begining
@@ -101,8 +136,7 @@ class Progress {
 	 * @method
 	 */
 	reset(){
-		localStorage.removeItem("decisionProgress");
-		localStorage.removeItem("narrativeProgress");
+		localStorage.removeItem("progress");
 	}
 }
 

@@ -9,7 +9,7 @@ class Decision extends Evented {
 	
 		// super call for Evented constructor
 		super();
-
+		
 		this._choices = options.choices;
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
@@ -17,6 +17,10 @@ class Decision extends Evented {
 		this._narrative = options.narrative;
 
 		this.init();
+		
+		this._narrative.on("decision:made", (data)=>{
+			this.selectChoice(data);
+		});
 	}
 
 	init(){
@@ -31,11 +35,10 @@ class Decision extends Evented {
 	 * Selects a choice
 	 * @param  {Number} choiceIndex the, er, index of the choice
 	 */
-	selectChoice(choiceIndex) {
+	selectChoice(choice) {
 		
 		// Get choice and its effects
-		var choice = this._choices[choiceIndex],
-			effects = choice.effects;
+		var effects = choice.effects;
 		
 		// Apply effects
 		Object.keys(effects).forEach((k) => {
@@ -51,11 +54,6 @@ class Decision extends Evented {
 					console.log(effect);
 			}
 		});
-
-		//this.trigger("decision:made", {});
-		
-		// Goto next scene as directed
-		this._narrative.moveScene(choice.goto);
 	}
 
 	/**
