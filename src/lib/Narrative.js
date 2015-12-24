@@ -26,7 +26,7 @@ class Narrative extends Evented {
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
 		this._ui = options.ui;
-		this._initialScene = options.initialScene
+		this._initialScene = options.initialScene;
 
 		// enable any dev features requested
 		this.setupDev(options);

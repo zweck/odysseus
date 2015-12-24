@@ -102,8 +102,7 @@ class Progress {
 				switch(this.progress[i].type) {
 					case "Decision":
 						alert(JSON.stringify(this.progress[i]))
-						this._narrative.trigger("decision:made", {choices: this.progress[i];
-						});
+						this._narrative.trigger("decision:made", {choices: this.progress[i]});
 					break;
 					case "Narrative":
 						
