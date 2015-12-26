@@ -13,13 +13,14 @@ class Decision extends Evented {
 		this._choices = options.choices;
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
-		this._decisionView = new DecisionView(this);
 		this._narrative = options.narrative;
+		
+		this._decisionView = new DecisionView({decisionInstance: this, narrative: this._narrative});
 
 		this.init();
 		
 		this._narrative.on("decision:made", (data)=>{
-			this.selectChoice(data);
+			this.selectChoice(data.choice);
 		});
 	}
 

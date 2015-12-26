@@ -1,7 +1,7 @@
 export default class DecisionView {
 
 	constructor(options){
-		this.decisionInstance = optionsdecisionInstance;
+		this.decisionInstance = options.decisionInstance;
 		this._narrative = options.narrative;
 	}
 
@@ -44,7 +44,7 @@ export default class DecisionView {
 		}
 		
 		// trigger a decision made event
-		this._narrative.trigger("decision:made", {choice: this.decisionInstance.choices[idx]});
+		this._narrative.trigger("decision:made", {class: this.decisionInstance, choice: this.decisionInstance.choices[idx]});
 	}
 
 	bindEvents(){
