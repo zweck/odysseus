@@ -33,6 +33,16 @@ let scene = [
 	},
 	5,
 	"STAGE: A piercing screech deafens you",
+	1,
+	"What the hell was that?",
+	2,
+	"CEBS: ...",
+	2,
+	"I can't hear you CEBS.",
+	0,
+	"STAGE: A rush of noise fills your head with dazzling complexity, you can hear everything in every room on the ship all at once. This quietens down to just the clear, present voice of CEBS.",
+	1,
+	"CEBS: I've also fixed the audio if you can't tell?"
 ]
 
 module.exports = scene;
