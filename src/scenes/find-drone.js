@@ -22,6 +22,7 @@ let scene = [
 	"Yeh, something flashed in my vision and then went again.",
 	5,
 	"CEBS: Ok, let me try something different",
+	0,
 	"Wait, don't go. CEBS?!",
 	1,
 	"CEBS: 1 sec... I think I've got it.",

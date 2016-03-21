@@ -4,7 +4,7 @@ import Decision from './Decision';
 import Utterance from './Utterance';
 import Evented from './Evented';
 
-// map the scenes for require, this currently needs to 
+// map the scenes for require, this currently needs to
 // be done manually until I find a way of dynamically loading modules
 let IntroScene = require('../scenes/intro');
 let FindDroneScene = require('../scenes/find-drone');
@@ -31,15 +31,15 @@ class Narrative extends Evented {
 		// enable any dev features requested
 		this.setupDev(options);
 
-		// create an object of uiview mapping sections against their 
+		// create an object of uiview mapping sections against their
 		// resource class instance
 		this._uiBySection = {};
 		this._ui.forEach((ui) => {
 			this._uiBySection[ui.section] = ui;
-		});	
-		
+		});
+
 		this.on("decision:made", (data)=>{
-			this.moveScene(data.choice.goto);
+			if(!data.isLoading) this.moveScene(data.choice.goto);
 		});
 	}
 
@@ -80,7 +80,7 @@ class Narrative extends Evented {
 			if (this._waitTimer) {
 				clearTimeout(this._waitTimer);
 			}
-			this.go();	
+			this.go();
 		};
 	}
 
@@ -142,7 +142,7 @@ class Narrative extends Evented {
 
 		// get the scene narrative
 		var narrative = this.narrative;
-		
+
 		// if we're still in a narrative
 		if( i < narrative.length ){
 
@@ -163,7 +163,7 @@ class Narrative extends Evented {
 
 					// increment the progress
 					this.incrementProgress();
-					
+
 					// repeat
 					this.go();
 				break;
@@ -173,13 +173,13 @@ class Narrative extends Evented {
 				break;
 				case "object":
 					if (entry.is === "decision") {
-						this.decide(entry);					
+						this.decide(entry);
 					}else if (entry.is === "ui") {
 						this.ui(entry);
 
 						// increment the progress
 						this.incrementProgress();
-						
+
 						// repeat
 						this.go();
 					}
@@ -197,7 +197,7 @@ class Narrative extends Evented {
 
 		var character,
 			text;
-		
+
 		// get a the character from the front of the scene text string
 		character = this._characters.charactersByName[utterance.characterName];
 
@@ -216,7 +216,7 @@ class Narrative extends Evented {
 
 		var uiEffect = ui.effect.split(" ");
 		var effect = uiEffect[0].trim().toLowerCase();
-		
+
 		if(effect === "disable"){
 			effect = false;
 		}else if(effect === "enable"){
@@ -227,14 +227,14 @@ class Narrative extends Evented {
 	}
 
 	decide(decision){
-		// trigger the need for a decision to be handled. 
+		// trigger the need for a decision to be handled.
 		this.trigger("decision:required", {
 			decision: decision,
-			scene: this.narrativeView.scene, 
-			progress: this._progress, 
+			scene: this.narrativeView.scene,
+			progress: this._progress,
 			options: {
-				choices: decision.choices, 
-				infrastructure: this._infrastructure.infrastructureByName, 
+				choices: decision.choices,
+				infrastructure: this._infrastructure.infrastructureByName,
 				resources: this._resources.resourcesByName,
 				narrative: this
 			}
@@ -277,11 +277,11 @@ class Narrative extends Evented {
 					this.skip();
 				}
 			});
-			
+
 			document.body.addEventListener('touchend', (e) => {
 				this.skip();
 			});
-			
+
 			document.body.addEventListener('mousedown', (e) => {
 				this.skip();
 			});
