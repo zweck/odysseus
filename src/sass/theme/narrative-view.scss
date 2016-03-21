@@ -14,10 +14,25 @@
 
 	.Me, .Me > *{
 	    color: #0288CD;
-	}	
+	}
 
 	.output-wrapper:last-child .Me.output:last-child {
 	    background: #03343D;
 	}
+
+
+
+	.STAGE .name{
+		display: none;
+	}
+
+	.STAGE, .STAGE > *{
+	    color: #f18260;
+	}
+
+	.output-wrapper:last-child .STAGE.output:last-child {
+	    background: #3A231C;
+	}
+
 
 }

@@ -48,6 +48,8 @@ class Progress {
 				progress = this.progress,
 				adv = advancement;
 
+			adv.scene = adv.narrativeView.scene,
+
 			// replace the class object with the type
 			delete adv.class
 			adv.type = eventType;

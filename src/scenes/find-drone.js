@@ -32,6 +32,7 @@ let scene = [
 		effect: "Enable menu"
 	},
 	5,
+	"STAGE: A piercing screech deafens you",
 ]
 
 module.exports = scene;

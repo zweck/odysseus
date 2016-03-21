@@ -20,8 +20,8 @@ class CharacterManager extends Evented {
 		this.characters = options.characters;
 		this.perspective = options.perspective;
 
-		// add a default player character
-		this.characters.push("PLAYER");
+		// add a default player and stage character
+		this.characters =  this.characters.concat(["PLAYER", "STAGE"]);
 
 		this.characters.forEach( (character) => {
 			character = new Character({character: character, perspective: this.perspective});

@@ -27,7 +27,7 @@ class Character extends Evented {
 
 		let template = `
 			<p class="output ${ this.name }">
-				${ this.name }: <span class="utterance">${ utterance.text }</span>
+				<span class="name">${ this.name }:</span> <span class="utterance">${ utterance.text }</span>
 			</p>`;
 
 		options.narrativeView.render(template);

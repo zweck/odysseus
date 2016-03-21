@@ -103,16 +103,6 @@ class Narrative extends Evented {
 	}
 
 	/**
-	 * This method parses out the character at the start of the utterance and checks that they exist in the character class
-	 * @param  {string} narrative The utterance from the scene array
-	 * @return {string} character The character name from the utterance
-	 */
-	getCharactersForNarrative(narrative){
-		var name = narrative.split(":")[0].trim();
-		return this._characters.charactersByName[name] || false;
-	}
-
-	/**
 	 * This method offsets the wait time by the amount of characters in the utterance
 	 * @param  {string} narrative The utterance from the scene array
 	 * @return {number}           The amount of characters * 100ms
@@ -123,11 +113,6 @@ class Narrative extends Evented {
 		}else{
 			return 0;
 		}
-	}
-
-	type(utterance){
-		var utteranceType = typeof utterance;
-		return utteranceType;
 	}
 
 	/**
@@ -188,8 +173,6 @@ class Narrative extends Evented {
 					}
 
 				break;
-				default:
-					this.say(utterance);
 			}
 
 		}
