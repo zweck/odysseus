@@ -21,7 +21,10 @@ let ui = config.ui.map(function(ui){
 // init the asset managers
 let resources = new ResourceManager(config.resources);
 let infrastructure = new InfrastructureManager(config.infrastructure);
-let characters = new CharacterManager(config.characters);
+let characters = new CharacterManager({
+	characters: config.characters,
+	perspective: config.perspective
+});
 
 // pull any dev overrides from querystring
 // @todo use something like @link https://www.npmjs.com/package/nconf for hierarchical, environment-based configs, instead of querystring
@@ -38,7 +41,6 @@ if(Object.keys(queryString).indexOf('ignoreSave') !== -1){
 let narrative = new Narrative({
 	allowSkip: config.environment === 'development',
 	speed: config.speed,
-	perspective: config.perspective,
 	resources: resources,
 	characters: characters,
 	infrastructure: infrastructure,
@@ -61,5 +63,3 @@ if(ignoreSave){
 }else{
 	progress.load();
 }
-
-

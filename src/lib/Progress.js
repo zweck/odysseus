@@ -64,7 +64,7 @@ class Progress {
 					for (var i = progress.length - 1; i >= 0; i--) {
 
 						// if you are in the same scene as the current narrative
-						if(progress[i].scene === adv.scene){
+						if(progress[i].scene === adv.narrativeView.scene){
 
 							// then set the progress for that item to the current progress point
 							progress[i].progress = adv.progress;

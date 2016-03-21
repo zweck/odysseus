@@ -1,13 +1,36 @@
+import Evented from './Evented';
+
 /**
  * @class
  */
-class Character {
-	constructor(name){
-		this.name = name;
+class Character extends Evented {
+	constructor(options){
+		super();
+		this.name = options.character;
+		this.perspective = options.perspective;
+
+		if(this.name === "PLAYER"){
+			this.name = options.perspective;
+		}
+
+		this.bindEvents();
 	}
 
-	say(){
-		
+	bindEvents(){
+		this.on("character:say", (data) => {
+			this.say({utterance: data.utterance, narrativeView: data.narrativeView});
+		});
+	}
+
+	say(options){
+		let utterance = options.utterance;
+
+		let template = `
+			<p class="output ${ this.name }">
+				${ this.name }: <span class="utterance">${ utterance.text }</span>
+			</p>`;
+
+		options.narrativeView.render(template);
 	}
 }
 

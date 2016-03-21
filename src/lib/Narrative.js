@@ -20,7 +20,6 @@ class Narrative extends Evented {
 
 		// setup some public properties
 		this._speed = options.speed || 1;
-		this._perspective = options.perspective;
 		this._progress = 0;
 		this._characters = options.characters;
 		this._resources = options.resources;
@@ -126,7 +125,6 @@ class Narrative extends Evented {
 		}
 	}
 
-
 	type(utterance){
 		var utteranceType = typeof utterance;
 		return utteranceType;
@@ -147,8 +145,7 @@ class Narrative extends Evented {
 		if( i < narrative.length ){
 
 			// trigger a progress event for the narrative
-			this.trigger("progress:narrative", {class: this, scene: this.narrativeView.scene, progress: i});
-
+			this.trigger("progress:narrative", {class: this, narrativeView: this.narrativeView, progress: i});
 
 			let entry = narrative[i];
 			// get the `type` of object in the scene array
@@ -158,8 +155,14 @@ class Narrative extends Evented {
 			switch(entryType) {
 				case "string":
 					// if the array element is a string pass it to the say method
-					let utterance = new Utterance(entry);
-					this.say(utterance);
+					let utterance = new Utterance(entry),
+						characterName = utterance.characterName || this._characters.perspective,
+						character = this._characters.charactersByName[characterName];
+
+					character.trigger("character:say", {
+						utterance: utterance,
+						narrativeView: this.narrativeView
+					});
 
 					// increment the progress
 					this.incrementProgress();
@@ -191,25 +194,6 @@ class Narrative extends Evented {
 
 		}
 
-	}
-
-	say(utterance){
-
-		var character,
-			text;
-
-		// get a the character from the front of the scene text string
-		character = this._characters.charactersByName[utterance.characterName];
-
-		// if the character in the narrative isn't in the characters setup
-		// assume that its the protaganist
-		if(!character){
-			character = {name: this._perspective};
-		}
-		text = utterance.text;
-
-		// pass the character and the text to the narrative view
-		this.narrativeView.render({utterance: text, character: character});
 	}
 
 	ui(ui){

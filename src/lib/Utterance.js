@@ -16,7 +16,7 @@ class Utterance {
 	}
 
 	/**
-	 * @return {string} the type of 
+	 * @return {string} the type of
 	 */
 
 	/**
@@ -27,6 +27,7 @@ class Utterance {
 			let sections = this._entry.split(":");
 			this._characterName = sections.length > 1 ? sections[0].trim() : null;
 		}
+
 		return this._characterName;
 	}
 
