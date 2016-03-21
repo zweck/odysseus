@@ -5,79 +5,79 @@ const channelSep = /:+/g;
  * @class
  */
 class EventedClass {
-    constructor(){
-        this._channels = {};
-    }
+	constructor(){
+		this._channels = {};
+	}
 
-    _getChannels(channelString){
-        return channelString.trim().split(multiChannelSep);
-    }
+	_getChannels(channelString){
+		return channelString.trim().split(multiChannelSep);
+	}
 
-    _getNameSpaces(channel){
-        let namespaces = [];
-        let splittedChannels = channel.trim().split(channelSep);
+	_getNameSpaces(channel){
+		let namespaces = [];
+		let splittedChannels = channel.trim().split(channelSep);
 
-        for (var i = splittedChannels.length; i >= 1; i--) {
-            namespaces.push(splittedChannels.slice(0, i).join(":"))
-        }
+		for (var i = splittedChannels.length; i >= 1; i--) {
+			namespaces.push(splittedChannels.slice(0, i).join(":"))
+		}
 
-        return namespaces;
-    }
+		return namespaces;
+	}
 
-    trigger(event, data){
-        let channels = this._getChannels(event);
+	trigger(event, data){
+		let channels = this._getChannels(event);
 
-        for (let channel of channels){
-            let namespaces = this._getNameSpaces(channel);
-            for (let namespace of namespaces){
-                if(!this._channels[namespace]){
-                    continue;
-                }
+		for (let channel of channels){
+			let namespaces = this._getNameSpaces(channel);
+			for (let namespace of namespaces){
+				if(!this._channels[namespace]){
+					continue;
+				}
 
-                for(let callback of this._channels[namespace]){
-                    callback.call(this, data);
-                }
-            }
-        }
-    }
+				for(let callback of this._channels[namespace]){
+					callback.call(this, data);
+				}
+			}
+		}
+	}
 
-    on(event, callback){
-        let channels = this._getChannels(event);
+	on(event, callback){
+		let channels = this._getChannels(event);
 
-        for (let channel of channels){
-            if(!this._channels[channel]){
-                this._channels[channel] = [];
-            }
+		for (let channel of channels){
+			if(!this._channels[channel]){
+				this._channels[channel] = [];
+			}
 
-            this._channels[channel].push(callback);
-        }
-    }
+			this._channels[channel].push(callback);
+		}
+	}
 
-    off(event, callback){
-        let channels = this._getChannels(event);
+	off(event, callback){
+		let channels = this._getChannels(event);
 
-        for (let channel of channels){
-            if(!this._channels[channel]){
-                return;
-            }
+		for (let channel of channels){
+			if(!this._channels[channel]){
+				return;
+			}
 
-            let index = this._channels[channel].indexOf(callback);
+			let index = this._channels[channel].indexOf(callback);
 
-            if(index > -1){
-                this._channels[channel].splice(index, 1);
-            }
-        }
-    }
+			if(index > -1){
+				this._channels[channel].splice(index, 1);
+			}
+		}
+	}
 
-    once(event, callback){
-        function offCallback(){
-            this.off(event, callback);
-            this.off(event, offCallback);
-        }
+	once(event, callback){
+		function offCallback(){
+			this.off(event, callback);
+			this.off(event, offCallback);
+		}
 
-        this.on(event, callback);
-        this.on(event, offCallback);
-    }
+		this.on(event, callback);
+		this.on(event, offCallback);
+	}
 }
 
 export default EventedClass;

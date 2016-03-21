@@ -2,19 +2,20 @@ import NarrativeView from './Views/NarrativeView';
 import UIView from './Views/UIView';
 import Decision from './Decision';
 import Utterance from './Utterance';
-import Progress from './Progress';
+import Evented from './Evented';
 
-// map the scenes for require, this currently needs to 
+// map the scenes for require, this currently needs to
 // be done manually until I find a way of dynamically loading modules
+let IntroScene = require('../scenes/intro');
 let FindDroneScene = require('../scenes/find-drone');
 
 /**
  * @class
  */
-class Narrative {
+class Narrative extends Evented {
 	constructor(options){
+		super();
 
-		this.globalProgress = new Progress();
 		this.narrativeView = new NarrativeView();
 
 		// setup some public properties
@@ -25,16 +26,26 @@ class Narrative {
 		this._resources = options.resources;
 		this._infrastructure = options.infrastructure;
 		this._ui = options.ui;
+		this._initialScene = options.initialScene;
 
 		// enable any dev features requested
 		this.setupDev(options);
 
-		// create an object of uiview mapping sections against their 
+		// create an object of uiview mapping sections against their
 		// resource class instance
 		this._uiBySection = {};
 		this._ui.forEach((ui) => {
 			this._uiBySection[ui.section] = ui;
-		});	
+		});
+
+		this.on("decision:made", (data)=>{
+			if(!data.isLoading) this.moveScene(data.choice.goto);
+		});
+	}
+
+	init(){
+		var initialScene = require('../scenes/' + this._initialScene);
+		this.run(initialScene, this._initialScene);
 	}
 
 	set narrative(scene){
@@ -55,6 +66,28 @@ class Narrative {
 		this.go();
 	}
 
+	/**
+	 * This method loops through the scene until the saved progress of the current scene is reached
+	 * @param  {string} scene 		This parameter should contain the scene name saved progress level to skip though
+	 * @param  {number} progress 	This parameter should contain point in the scene to skip to
+	 */
+	loadAtPoint(scene, progress){
+		this.narrativeView.scene = scene;
+		this.narrative = require("../scenes/" + scene);
+
+		for(var i = 0; i < progress; i++) {
+			this._progress = i;
+			if (this._waitTimer) {
+				clearTimeout(this._waitTimer);
+			}
+			this.go();
+		};
+	}
+
+	/**
+	 * This method loads the next scene
+	 * @param  {string} scene This parameter should contain the scene name for the next scene to load
+	 */
 	moveScene(scene){
 		var nextScene = require("../scenes/" + scene);
 		this._progress = 0;
@@ -109,9 +142,14 @@ class Narrative {
 
 		// get the scene narrative
 		var narrative = this.narrative;
-		
+
 		// if we're still in a narrative
 		if( i < narrative.length ){
+
+			// trigger a progress event for the narrative
+			this.trigger("progress:narrative", {class: this, scene: this.narrativeView.scene, progress: i});
+
+
 			let entry = narrative[i];
 			// get the `type` of object in the scene array
 			let entryType = typeof entry;
@@ -125,7 +163,7 @@ class Narrative {
 
 					// increment the progress
 					this.incrementProgress();
-					
+
 					// repeat
 					this.go();
 				break;
@@ -135,13 +173,13 @@ class Narrative {
 				break;
 				case "object":
 					if (entry.is === "decision") {
-						this.decide(entry);					
+						this.decide(entry);
 					}else if (entry.is === "ui") {
 						this.ui(entry);
 
 						// increment the progress
 						this.incrementProgress();
-						
+
 						// repeat
 						this.go();
 					}
@@ -159,7 +197,7 @@ class Narrative {
 
 		var character,
 			text;
-		
+
 		// get a the character from the front of the scene text string
 		character = this._characters.charactersByName[utterance.characterName];
 
@@ -178,7 +216,7 @@ class Narrative {
 
 		var uiEffect = ui.effect.split(" ");
 		var effect = uiEffect[0].trim().toLowerCase();
-		
+
 		if(effect === "disable"){
 			effect = false;
 		}else if(effect === "enable"){
@@ -189,14 +227,18 @@ class Narrative {
 	}
 
 	decide(decision){
-
-		this._decision = new Decision({
-			choices: decision.choices,
-			infrastructure: this._infrastructure.infrastructureByName,
-			resources: this._resources.resourcesByName,
-			narrative: this,
+		// trigger the need for a decision to be handled.
+		this.trigger("decision:required", {
+			decision: decision,
+			scene: this.narrativeView.scene,
+			progress: this._progress,
+			options: {
+				choices: decision.choices,
+				infrastructure: this._infrastructure.infrastructureByName,
+				resources: this._resources.resourcesByName,
+				narrative: this
+			}
 		});
-
 	}
 
 	wait(waitTime, i){
@@ -234,6 +276,14 @@ class Narrative {
 				if (keyCode === 190) { // '.' to skip
 					this.skip();
 				}
+			});
+
+			document.body.addEventListener('touchend', (e) => {
+				this.skip();
+			});
+
+			document.body.addEventListener('mousedown', (e) => {
+				this.skip();
 			});
 		}
 	}

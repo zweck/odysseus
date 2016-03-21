@@ -24,6 +24,8 @@ let config = {
 
 	characters: ["CEBS"],
 
+	initialScene: "intro",
+
 	endGame: [
 		{infrastructure: "Bridge",	value: false},
 		{resources: "Killowatts",	value: 0},

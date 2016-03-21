@@ -12,9 +12,13 @@ class InfrastructureManager extends Evented {
 	 */
 	constructor(infrastructure){
 		super();
-		this.infrastructure = infrastructure;
+		
+		/**
+		 * @public
+		 */
 		this.infrastructureByName = {};
-
+		
+		this.infrastructure = infrastructure;
 		this.infrastructure.forEach((infrastructure) => {
 			infrastructure = new Infrastructure(infrastructure);
 			infrastructure.on("change:status", () => {

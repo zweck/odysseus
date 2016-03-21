@@ -4,7 +4,6 @@ import Evented from './Evented';
 /**
  * @description This class is a factory class and event manager for resources
  * @extends Evented
- * @public {object} resourcesByName This is a hash of resources key'ed by the resource name
  * @class
  */
 class ResourceManager extends Evented {
@@ -15,9 +14,13 @@ class ResourceManager extends Evented {
 	 */
 	constructor(resources){
 		super();
-		this.resources = resources;
+
+		/**
+		 * @public
+		 */
 		this.resourcesByName = {};
 
+		this.resources = resources;
 		this.resources.forEach((resource) => {
 			resource = new Resource(resource);
 			resource.on("change:level", () => {
